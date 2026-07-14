@@ -45,6 +45,7 @@ import { FileManager } from "./FileManager";
 import { FileStatusStore } from "./fileStatusStore";
 import { Locker } from "./Locker";
 import { updateBrowserStateVersion } from "./tabSync";
+import { VersionHistory } from "./VersionHistory";
 
 const filesStore = createStore("files-db", "files-store");
 
@@ -124,6 +125,9 @@ export class LocalData {
     ) => {
       saveDataStateToLocalStorage(elements, appState);
 
+      // Save version snapshot
+      VersionHistory.saveSnapshot(elements, appState).catch(console.error);
+
       await this.fileStorage.saveFiles({
         elements,
         files,
@@ -168,7 +172,7 @@ export class LocalData {
 
   static fileStorage = new LocalFileManager({
     onFileStatusChange: FileStatusStore.updateStatuses.bind(FileStatusStore),
-    getFiles(ids) {
+    getFiles(ids: FileId[]) {
       return getMany(ids, filesStore).then(
         async (filesData: (BinaryFileData | undefined)[]) => {
           const loadedFiles: BinaryFileData[] = [];
@@ -201,7 +205,7 @@ export class LocalData {
         },
       );
     },
-    async saveFiles({ addedFiles }) {
+    async saveFiles({ addedFiles }: { addedFiles: Map<FileId, BinaryFileData> }) {
       const savedFiles = new Map<FileId, BinaryFileData>();
       const erroredFiles = new Map<FileId, BinaryFileData>();
 

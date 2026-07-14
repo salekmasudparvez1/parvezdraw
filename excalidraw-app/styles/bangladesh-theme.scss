@@ -1,0 +1,360 @@
+/**
+ * Bangladesh Theme for Parvez Draw
+ * Green and Red color palette inspired by the Bangladesh flag
+ */
+
+// Bangladesh Flag Colors
+$bd-green: #006a4e;
+$bd-green-light: #00875a;
+$bd-green-dark: #004d38;
+$bd-green-pale: #e6f5ef;
+$bd-red: #f42a41;
+$bd-red-light: #ff6b6b;
+$bd-red-dark: #c41e3a;
+$bd-red-pale: #ffe8eb;
+
+// Neutral Colors
+$bd-white: #ffffff;
+$bd-gray-50: #f8fafc;
+$bd-gray-100: #f1f5f9;
+$bd-gray-200: #e2e8f0;
+$bd-gray-300: #cbd5e1;
+$bd-gray-400: #94a3b8;
+$bd-gray-500: #64748b;
+$bd-gray-600: #475569;
+$bd-gray-700: #334155;
+$bd-gray-800: #1e293b;
+$bd-gray-900: #0f172a;
+
+// Apply Bangladesh theme
+.excalidraw {
+  // Primary colors - Bangladesh Green
+  --color-primary: #{$bd-green};
+  --color-primary-darker: #{$bd-green-dark};
+  --color-primary-darkest: #{$bd-green-dark};
+  --color-primary-light: #{$bd-green-pale};
+  --color-primary-light-darker: #{$bd-green-pale};
+  --color-primary-hover: #{$bd-green-light};
+  --color-primary-contrast-offset: #{$bd-green};
+
+  // Surface colors with green tint
+  --color-surface-high: #{$bd-gray-100};
+  --color-surface-mid: #{$bd-gray-50};
+  --color-surface-low: #{$bd-green-pale};
+  --color-surface-lowest: #{$bd-white};
+  --color-on-surface: #{$bd-gray-900};
+
+  // Brand colors
+  --color-brand-hover: #{$bd-green-light};
+  --color-brand-active: #{$bd-green};
+  --color-on-primary-container: #{$bd-white};
+  --color-surface-primary-container: #{$bd-green-pale};
+
+  // Danger/Error colors - Bangladesh Red
+  --color-danger: #{$bd-red};
+  --color-danger-dark: #{$bd-red-dark};
+  --color-danger-darker: #{$bd-red-dark};
+  --color-danger-darkest: #{$bd-red-dark};
+  --color-danger-text: #{$bd-white};
+  --color-danger-background: #{$bd-red-pale};
+  --color-danger-icon-background: #{$bd-red-light};
+  --color-danger-color: #{$bd-red-dark};
+  --color-danger-icon-color: #{$bd-white};
+
+  // Warning colors
+  --color-warning: #fef3c7;
+  --color-warning-dark: #f59e0b;
+  --color-text-warning: #{$bd-gray-900};
+
+  // Success colors
+  --color-success: #{$bd-green-pale};
+  --color-success-darker: #{$bd-green-light};
+  --color-success-darkest: #{$bd-green};
+  --color-success-text: #{$bd-green-dark};
+  --color-success-contrast: #{$bd-green};
+  --color-success-contrast-hover: #{$bd-green-light};
+  --color-success-contrast-active: #{$bd-green};
+
+  // Button colors
+  --button-destructive-bg-color: #{$bd-red-pale};
+  --button-destructive-color: #{$bd-red-dark};
+
+  // Selection color
+  --color-selection: #{$bd-green};
+
+  // Logo colors
+  --color-logo-icon: #{$bd-green};
+  --color-logo-text: #{$bd-green-dark};
+
+  // Badge colors
+  --color-badge: #{$bd-green};
+  --background-color-badge: #{$bd-green-pale};
+
+  // Border radius
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+
+  // Focus highlight
+  --focus-highlight-color: #{$bd-green-pale};
+
+  // Link colors
+  --link-color: #{$bd-green};
+  --link-color-hover: #{$bd-green-dark};
+  --link-color-active: #{$bd-green-pale};
+
+  // Dark theme adjustments
+  &.theme--dark {
+    --color-primary: #{$bd-green-light};
+    --color-primary-darker: #{$bd-green};
+    --color-primary-darkest: #{$bd-green-dark};
+    --color-primary-light: #{$bd-green-dark};
+    --color-primary-light-darker: #{$bd-green-dark};
+    --color-primary-hover: #{$bd-green-pale};
+    --color-primary-contrast-offset: #{$bd-green-light};
+
+    --color-surface-high: #{$bd-gray-800};
+    --color-surface-mid: #{$bd-gray-900};
+    --color-surface-low: #{$bd-green-dark};
+    --color-surface-lowest: #{$bd-gray-900};
+    --color-on-surface: #{$bd-gray-100};
+
+    --color-brand-hover: #{$bd-green-pale};
+    --color-brand-active: #{$bd-green-light};
+    --color-on-primary-container: #{$bd-green-pale};
+    --color-surface-primary-container: #{$bd-green-dark};
+
+    --color-danger: #{$bd-red-light};
+    --color-danger-dark: #{$bd-red-dark};
+    --color-danger-darker: #{$bd-red-dark};
+    --color-danger-darkest: #{$bd-red};
+    --color-danger-text: #{$bd-red-pale};
+    --color-danger-background: #{$bd-red-dark};
+    --color-danger-icon-background: #{$bd-red};
+    --color-danger-color: #{$bd-red-pale};
+    --color-danger-icon-color: #{$bd-white};
+
+    --color-logo-text: #{$bd-green-pale};
+  }
+}
+
+// Bangladesh flag-inspired decorative elements
+.bangladesh-flag-accent {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, $bd-green 0%, $bd-green-light 100%);
+    border-radius: 2px;
+  }
+}
+
+// Green gradient button style
+.btn-bd-green {
+  background: linear-gradient(135deg, $bd-green 0%, $bd-green-light 100%);
+  color: $bd-white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 106, 78, 0.3);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 106, 78, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Red accent button for destructive actions
+.btn-bd-red {
+  background: linear-gradient(135deg, $bd-red 0%, $bd-red-light 100%);
+  color: $bd-white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(244, 42, 65, 0.3);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 42, 65, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Professional card style
+.bd-card {
+  background: $bd-white;
+  border-radius: 12px;
+  border: 1px solid $bd-gray-200;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: $bd-green-light;
+  }
+}
+
+// Status indicator with Bangladesh colors
+.bd-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &--saved {
+    background: $bd-green-pale;
+    color: $bd-green-dark;
+  }
+
+  &--saving {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--error {
+    background: $bd-red-pale;
+    color: $bd-red-dark;
+  }
+}
+
+// Welcome screen with Bangladesh theme
+.WelcomeScreen {
+  background: linear-gradient(135deg, $bd-green-pale 0%, $bd-white 100%);
+}
+
+.WelcomeScreen__heading {
+  color: $bd-green-dark;
+}
+
+// Menu styling
+.dropdown-menu-item {
+  &:hover {
+    background: $bd-green-pale !important;
+  }
+
+  &.highlighted {
+    color: $bd-green !important;
+  }
+}
+
+// Toolbar active state
+.ToolIcon_type_toggle.ToolIcon--checked .ToolIcon__icon {
+  background: $bd-green-pale !important;
+  border-color: $bd-green !important;
+}
+
+// Export button styling
+.export-dialog {
+  .btn-primary {
+    @extend .btn-bd-green;
+  }
+
+  .btn-danger {
+    @extend .btn-bd-red;
+  }
+}
+
+// Recent files panel styling
+.recent-files-panel {
+  .file-item {
+    &:hover {
+      background: $bd-green-pale;
+    }
+
+    .delete-btn {
+      color: $bd-red;
+
+      &:hover {
+        background: $bd-red-pale;
+      }
+    }
+  }
+}
+
+// Settings panel styling
+.settings-panel {
+  .toggle-switch {
+    &.active {
+      background: $bd-green;
+    }
+  }
+
+  .setting-label {
+    color: $bd-gray-700;
+  }
+
+  .setting-value {
+    color: $bd-green;
+    font-weight: 600;
+  }
+}
+
+// Auto-save indicator
+.auto-save-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: $bd-green-pale;
+  border-radius: 8px;
+  color: $bd-green-dark;
+  font-size: 13px;
+
+  &::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $bd-green;
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Professional scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bd-gray-100;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $bd-gray-300;
+  border-radius: 4px;
+
+  &:hover {
+    background: $bd-gray-400;
+  }
+}

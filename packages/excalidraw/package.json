@@ -1,6 +1,7 @@
 {
   "name": "@excalidraw/excalidraw",
   "version": "0.18.0",
+  "description": "Parvez Draw - An offline-first whiteboard tool",
   "type": "module",
   "types": "./dist/types/excalidraw/index.d.ts",
   "main": "./dist/prod/index.js",
@@ -38,7 +39,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "Excalidraw as a React component",
   "license": "MIT",
   "keywords": [
     "excalidraw",

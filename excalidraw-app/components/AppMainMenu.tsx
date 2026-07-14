@@ -1,8 +1,4 @@
-import {
-  loginIcon,
-  ExcalLogo,
-  eyeIcon,
-} from "@excalidraw/excalidraw/components/icons";
+import { eyeIcon } from "@excalidraw/excalidraw/components/icons";
 import { MainMenu } from "@excalidraw/excalidraw/index";
 import React from "react";
 
@@ -11,14 +7,174 @@ import { isDevEnv } from "@excalidraw/common";
 import type { Theme } from "@excalidraw/element/types";
 
 import { LanguageList } from "../app-language/LanguageList";
-import { isExcalidrawPlusSignedUser } from "../app_constants";
+import { AppSettings } from "../data/settings";
 
 import { saveDebugState } from "./DebugCanvas";
 
+const SettingsLabel: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <span style={{ fontSize: "13px", fontWeight: 500 }}>{children}</span>
+);
+
+const AutoSaveIntervalItem: React.FC = () => {
+  const [interval, setInterval_] = React.useState(
+    () => AppSettings.getAutoSaveInterval(),
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = parseInt(e.target.value, 10);
+    setInterval_(value);
+    AppSettings.setAutoSaveInterval(value);
+  };
+
+  return (
+    <MainMenu.ItemCustom>
+      <div
+        style={{
+          padding: "6px 12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+        }}
+      >
+        <SettingsLabel>Auto-save</SettingsLabel>
+        <select
+          value={interval}
+          onChange={handleChange}
+          style={{
+            padding: "4px 8px",
+            fontSize: "12px",
+            borderRadius: "6px",
+            border: "1px solid var(--color-border-outline-variant)",
+            background: "var(--island-bg-color)",
+            color: "var(--color-on-surface)",
+            cursor: "pointer",
+          }}
+        >
+          <option value={0}>Manual</option>
+          <option value={30}>30s</option>
+          <option value={60}>1min</option>
+          <option value={300}>5min</option>
+        </select>
+      </div>
+    </MainMenu.ItemCustom>
+  );
+};
+
+const PerformanceModeItem: React.FC = () => {
+  const [enabled, setEnabled] = React.useState(
+    () => AppSettings.isPerformanceMode(),
+  );
+
+  const handleToggle = () => {
+    const newValue = !enabled;
+    setEnabled(newValue);
+    AppSettings.setPerformanceMode(newValue);
+  };
+
+  return (
+    <MainMenu.ItemCustom>
+      <div
+        style={{
+          padding: "6px 12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+          cursor: "pointer",
+        }}
+        onClick={handleToggle}
+      >
+        <SettingsLabel>Performance mode</SettingsLabel>
+        <div
+          style={{
+            width: "36px",
+            height: "20px",
+            borderRadius: "10px",
+            background: enabled ? "var(--color-primary)" : "var(--color-gray-30)",
+            position: "relative",
+            transition: "background 0.2s",
+          }}
+        >
+          <div
+            style={{
+              width: "16px",
+              height: "16px",
+              borderRadius: "50%",
+              background: "white",
+              position: "absolute",
+              top: "2px",
+              left: enabled ? "18px" : "2px",
+              transition: "left 0.2s",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+            }}
+          />
+        </div>
+      </div>
+    </MainMenu.ItemCustom>
+  );
+};
+
+const HighDpiModeItem: React.FC = () => {
+  const [enabled, setEnabled] = React.useState(
+    () => AppSettings.isHighDpiMode(),
+  );
+
+  const handleToggle = () => {
+    const newValue = !enabled;
+    setEnabled(newValue);
+    AppSettings.setHighDpiMode(newValue);
+  };
+
+  return (
+    <MainMenu.ItemCustom>
+      <div
+        style={{
+          padding: "6px 12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+          cursor: "pointer",
+        }}
+        onClick={handleToggle}
+      >
+        <SettingsLabel>High DPI</SettingsLabel>
+        <div
+          style={{
+            width: "36px",
+            height: "20px",
+            borderRadius: "10px",
+            background: enabled ? "var(--color-primary)" : "var(--color-gray-30)",
+            position: "relative",
+            transition: "background 0.2s",
+          }}
+        >
+          <div
+            style={{
+              width: "16px",
+              height: "16px",
+              borderRadius: "50%",
+              background: "white",
+              position: "absolute",
+              top: "2px",
+              left: enabled ? "18px" : "2px",
+              transition: "left 0.2s",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+            }}
+          />
+        </div>
+      </div>
+    </MainMenu.ItemCustom>
+  );
+};
+
 export const AppMainMenu: React.FC<{
-  onCollabDialogOpen: () => any;
-  isCollaborating: boolean;
-  isCollabEnabled: boolean;
+  onCollabDialogOpen?: () => any;
+  isCollaborating?: boolean;
+  isCollabEnabled?: boolean;
   theme: Theme | "system";
   refresh: () => void;
 }> = React.memo((props) => {
@@ -28,36 +184,11 @@ export const AppMainMenu: React.FC<{
       <MainMenu.DefaultItems.SaveToActiveFile />
       <MainMenu.DefaultItems.Export />
       <MainMenu.DefaultItems.SaveAsImage />
-      {props.isCollabEnabled && (
-        <MainMenu.DefaultItems.LiveCollaborationTrigger
-          isCollaborating={props.isCollaborating}
-          onSelect={() => props.onCollabDialogOpen()}
-        />
-      )}
       <MainMenu.DefaultItems.CommandPalette className="highlighted" />
       <MainMenu.DefaultItems.SearchMenu />
       <MainMenu.DefaultItems.Help />
       <MainMenu.DefaultItems.ClearCanvas />
       <MainMenu.Separator />
-      <MainMenu.ItemLink
-        icon={ExcalLogo}
-        href={`${
-          import.meta.env.VITE_APP_PLUS_LP
-        }/plus?utm_source=excalidraw&utm_medium=app&utm_content=hamburger`}
-        className=""
-      >
-        Excalidraw+
-      </MainMenu.ItemLink>
-      <MainMenu.DefaultItems.Socials />
-      <MainMenu.ItemLink
-        icon={loginIcon}
-        href={`${import.meta.env.VITE_APP_PLUS_APP}${
-          isExcalidrawPlusSignedUser ? "" : "/sign-up"
-        }?utm_source=signin&utm_medium=app&utm_content=hamburger`}
-        className="highlighted"
-      >
-        {isExcalidrawPlusSignedUser ? "Sign in" : "Sign up"}
-      </MainMenu.ItemLink>
       {isDevEnv() && (
         <MainMenu.Item
           icon={eyeIcon}
@@ -82,6 +213,10 @@ export const AppMainMenu: React.FC<{
         <LanguageList style={{ width: "100%" }} />
       </MainMenu.ItemCustom>
       <MainMenu.DefaultItems.ChangeCanvasBackground />
+      <MainMenu.Separator />
+      <AutoSaveIntervalItem />
+      <PerformanceModeItem />
+      <HighDpiModeItem />
     </MainMenu>
   );
 });

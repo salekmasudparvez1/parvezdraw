@@ -1,8 +1,6 @@
 import { CaptureUpdateAction } from "@excalidraw/excalidraw";
-import { compressData } from "@excalidraw/excalidraw/data/encode";
 import { newElementWith } from "@excalidraw/element";
 import { isInitializedImageElement } from "@excalidraw/element";
-import { t } from "@excalidraw/excalidraw/i18n";
 
 import type {
   ExcalidrawElement,
@@ -12,7 +10,6 @@ import type {
 } from "@excalidraw/element/types";
 import type {
   BinaryFileData,
-  BinaryFileMetadata,
   ExcalidrawImperativeAPI,
   BinaryFiles,
 } from "@excalidraw/excalidraw/types";
@@ -64,9 +61,6 @@ export class FileManager {
     this._onFileStatusChange = onFileStatusChange;
   }
 
-  /**
-   * returns whether file is saved/errored, or being processed
-   */
   isFileTracked = (id: FileId) => {
     return (
       this.savedFiles.has(id) ||
@@ -104,7 +98,6 @@ export class FileManager {
 
       if (
         fileData &&
-        // NOTE if errored during save, won't retry due to this check
         !this.isFileSavedOrBeingSaved(fileData)
       ) {
         addedFiles.set(element.fileId, files[element.fileId]);
@@ -179,13 +172,6 @@ export class FileManager {
     }
   };
 
-  /** a file element prevents unload only if it's being saved regardless of
-   *  its `status`. This ensures that elements who for any reason haven't
-   *  beed set to `saved` status don't prevent unload in future sessions.
-   *  Technically we should prevent unload when the origin client haven't
-   *  yet saved the `status` update to storage, but that should be taken care
-   *  of during regular beforeUnload unsaved files check.
-   */
   shouldPreventUnload = (elements: readonly ExcalidrawElement[]) => {
     return elements.some((element) => {
       return (
@@ -196,9 +182,6 @@ export class FileManager {
     });
   };
 
-  /**
-   * helper to determine if image element status needs updating
-   */
   shouldUpdateImageElementStatus = (
     element: ExcalidrawElement,
   ): element is InitializedExcalidrawImageElement => {
@@ -224,50 +207,6 @@ export class FileManager {
     this.erroredFiles_save.clear();
   }
 }
-
-export const encodeFilesForUpload = async ({
-  files,
-  maxBytes,
-  encryptionKey,
-}: {
-  files: Map<FileId, BinaryFileData>;
-  maxBytes: number;
-  encryptionKey: string;
-}) => {
-  const processedFiles: {
-    id: FileId;
-    buffer: Uint8Array;
-  }[] = [];
-
-  for (const [id, fileData] of files) {
-    const buffer = new TextEncoder().encode(fileData.dataURL);
-
-    const encodedFile = await compressData<BinaryFileMetadata>(buffer, {
-      encryptionKey,
-      metadata: {
-        id,
-        mimeType: fileData.mimeType,
-        created: Date.now(),
-        lastRetrieved: Date.now(),
-      },
-    });
-
-    if (buffer.byteLength > maxBytes) {
-      throw new Error(
-        t("errors.fileTooBig", {
-          maxSize: `${Math.trunc(maxBytes / 1024 / 1024)}MB`,
-        }),
-      );
-    }
-
-    processedFiles.push({
-      id,
-      buffer: encodedFile,
-    });
-  }
-
-  return processedFiles;
-};
 
 export const updateStaleImageStatuses = (params: {
   excalidrawAPI: ExcalidrawImperativeAPI;

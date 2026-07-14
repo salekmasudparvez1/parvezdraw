@@ -2,59 +2,101 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Excalidraw Whiteboard</title>
+    <title>Parvez Draw - Free Offline Whiteboard | Hand-Drawn Diagrams</title>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
     />
     <meta name="referrer" content="origin" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#121212" />
+    <meta name="theme-color" content="#006a4e" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Parvez Draw" />
+    <meta name="msapplication-TileColor" content="#006a4e" />
+    <meta name="msapplication-TileImage" content="/parvez.png" />
 
     <!-- Primary Meta Tags -->
     <meta
       name="title"
-      content="Free, collaborative whiteboard • Hand-drawn look & feel | Excalidraw"
+      content="Parvez Draw - Free Offline Whiteboard | Hand-Drawn Diagrams"
     />
     <meta
       name="description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Parvez Draw is a free, open-source, offline-first whiteboard tool. Create beautiful hand-drawn diagrams, wireframes, flowcharts, and sketches. No account required. Works completely offline."
     />
-    <meta name="image" content="https://excalidraw.com/og-image-3.png" />
+    <meta
+      name="keywords"
+      content="whiteboard, drawing, diagram, wireframe, flowchart, sketch, hand-drawn, offline, free, open-source, canvas, brainstorm, mind map, design, prototype"
+    />
+    <meta name="author" content="Parvez Draw" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://parvezdraw.com" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:site_name" content="Excalidraw" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://excalidraw.com" />
+    <meta property="og:url" content="https://parvezdraw.com" />
+    <meta property="og:site_name" content="Parvez Draw" />
     <meta
       property="og:title"
-      content="Excalidraw — Collaborative whiteboarding made easy"
+      content="Parvez Draw - Free Offline Whiteboard"
     />
-    <meta property="og:image:alt" content="Excalidraw logo" />
     <meta
       property="og:description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Create beautiful hand-drawn diagrams, wireframes, and sketches. Free, open-source, and works offline. No account required."
     />
-    <meta property="og:image" content="https://excalidraw.com/og-image-3.png" />
+    <meta property="og:image" content="/parvez.png" />
+    <meta property="og:image:alt" content="Parvez Draw - Offline Whiteboard Application" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:site" content="@excalidraw" />
-    <meta property="twitter:url" content="https://excalidraw.com" />
+    <meta property="twitter:url" content="https://parvezdraw.com" />
     <meta
       property="twitter:title"
-      content="Excalidraw — Collaborative whiteboarding made easy"
+      content="Parvez Draw - Free Offline Whiteboard"
     />
     <meta
       property="twitter:description"
-      content="Excalidraw is a virtual collaborative whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them."
+      content="Create beautiful hand-drawn diagrams, wireframes, and sketches. Free, open-source, and works offline."
     />
-    <meta
-      property="twitter:image"
-      content="https://excalidraw.com/og-image-3.png"
-    />
+    <meta property="twitter:image" content="/parvez.png" />
+    <meta property="twitter:image:alt" content="Parvez Draw - Offline Whiteboard Application" />
 
-    <link rel="canonical" href="https://excalidraw.com" />
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#006a4e" />
+    <meta name="msapplication-navbutton-color" content="#006a4e" />
+    <meta name="apple-mobile-web-app-title" content="Parvez Draw" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Parvez Draw",
+      "description": "Free, open-source, offline-first whiteboard tool for creating hand-drawn diagrams, wireframes, and sketches.",
+      "url": "https://parvezdraw.com",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Offline-first whiteboard",
+        "Hand-drawn style diagrams",
+        "Real-time collaboration",
+        "Export to PNG, SVG, JSON",
+        "Auto-save functionality",
+        "Version history",
+        "Dark mode support",
+        "PWA support"
+      ]
+    }
+    </script>
 
     <!------------------------------------------------------------------------->
     <!--   to minimize white flash on load when user has dark mode enabled   -->
@@ -69,7 +111,7 @@
         }
 
         function getTheme() {
-          const theme = window.localStorage.getItem("excalidraw-theme");
+          const theme = window.localStorage.getItem("parvezdraw-theme");
 
           if (theme && theme === "system") {
             return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -87,8 +129,11 @@
     </script>
     <style>
       html.dark {
-        background-color: #121212;
+        background-color: #0a1612;
         color: #fff;
+      }
+      html {
+        background-color: #f8fafc;
       }
     </style>
 
@@ -98,25 +143,6 @@
 
     <!------------------------------------------------------------------------->
     <% if (typeof PROD != 'undefined' && PROD == true) { %>
-    <script>
-      // Redirect Excalidraw+ users which have auto-redirect enabled.
-      //
-      // Redirect only the bare root path, so link/room/library urls are not
-      // redirected.
-      //
-      // Putting into index.html for best performance (can't redirect on server
-      // due to location.hash checks).
-      if (
-        window.location.pathname === "/" &&
-        !window.location.hash &&
-        !window.location.search &&
-        // if its present redirect
-        document.cookie.includes("excplus-autoredirect=true")
-      ) {
-        window.location.href = "https://app.excalidraw.com";
-      }
-    </script>
-
     <!-- Following placeholder is replaced during the build step -->
     <!-- PLACEHOLDER:EXCALIDRAW_APP_FONTS -->
 
@@ -133,11 +159,14 @@
     </script>
     <% } %>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/parvez.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/parvez.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/parvez.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/parvez.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/parvez.png" />
+    <link rel="shortcut icon" href="/parvez.png" />
 
-    <!-- Excalidraw version -->
+    <!-- Parvez Draw version -->
     <meta name="version" content="{version}" />
 
     <% if (typeof VITE_APP_DEV_DISABLE_LIVE_RELOAD != 'undefined' &&
@@ -159,10 +188,9 @@
     <% } %>
     <script>
       // setting this so that libraries installation reuses this window tab.
-      window.name = "_excalidraw";
+      window.name = "_parvezdraw";
     </script>
 
-    <!-- FIXME: remove this when we update CRA (fix SW caching) -->
     <style>
       body,
       html {
@@ -208,45 +236,11 @@
   </head>
 
   <body>
-    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <noscript>You need to enable JavaScript to run Parvez Draw.</noscript>
     <header>
-      <h1 class="visually-hidden">Excalidraw</h1>
+      <h1 class="visually-hidden">Parvez Draw - Free Offline Whiteboard</h1>
     </header>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
-    <% if (typeof PROD != 'undefined' && PROD == true) { %>
-    <!-- 100% privacy friendly analytics -->
-    <script>
-      // need to load this script dynamically bcs. of iframe embed tracking
-      var scriptEle = document.createElement("script");
-      scriptEle.setAttribute(
-        "src",
-        "https://scripts.simpleanalyticscdn.com/latest.js",
-      );
-      scriptEle.setAttribute("type", "text/javascript");
-      scriptEle.setAttribute("defer", true);
-      scriptEle.setAttribute("async", true);
-      // if iframe
-      if (window.self !== window.top) {
-        scriptEle.setAttribute("data-auto-collect", true);
-      }
-
-      document.body.appendChild(scriptEle);
-
-      // if iframe
-      if (window.self !== window.top) {
-        scriptEle.addEventListener("load", () => {
-          if (window.sa_pageview) {
-            window.window.sa_event(action, {
-              category: "iframe",
-              label: "embed",
-              value: window.location.pathname,
-            });
-          }
-        });
-      }
-    </script>
-    <!-- end LEGACY GOOGLE ANALYTICS -->
-    <% } %>
   </body>
 </html>

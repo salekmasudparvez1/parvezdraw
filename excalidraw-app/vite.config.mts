@@ -133,10 +133,9 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       Sitemap({
-        hostname: "https://excalidraw.com",
+        hostname: "http://localhost:3000",
         outDir: "build",
         changefreq: "monthly",
-        // its static in public folder
         generateRobotsTxt: false,
       }),
       woff2BrowserPlugin(),
@@ -226,10 +225,10 @@ export default defineConfig(({ mode }) => {
           maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
         },
         manifest: {
-          short_name: "Excalidraw",
-          name: "Excalidraw",
+          short_name: "Parvez Draw",
+          name: "Parvez Draw",
           description:
-            "Excalidraw is a whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+            "Parvez Draw is an offline-first whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
           icons: [
             {
               src: "android-chrome-192x192.png",
@@ -253,7 +252,7 @@ export default defineConfig(({ mode }) => {
             },
           ],
           start_url: "/",
-          id: "excalidraw",
+          id: "parvezdraw",
           display: "standalone",
           theme_color: "#121212",
           background_color: "#ffffff",
@@ -261,7 +260,7 @@ export default defineConfig(({ mode }) => {
             {
               action: "/",
               accept: {
-                "application/vnd.excalidraw+json": [".excalidraw"],
+                "application/vnd.parvezdraw+json": [".parvezdraw"],
               },
             },
           ],
@@ -274,46 +273,14 @@ export default defineConfig(({ mode }) => {
                 {
                   name: "file",
                   accept: [
-                    "application/vnd.excalidraw+json",
+                    "application/vnd.parvezdraw+json",
                     "application/json",
-                    ".excalidraw",
+                    ".parvezdraw",
                   ],
                 },
               ],
             },
           },
-          screenshots: [
-            {
-              src: "/screenshots/virtual-whiteboard.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/wireframe.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/illustration.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/shapes.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/collaboration.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-            {
-              src: "/screenshots/export.png",
-              type: "image/png",
-              sizes: "462x945",
-            },
-          ],
         },
       }),
       createHtmlPlugin({

@@ -1,11 +1,9 @@
 import Trans from "@excalidraw/excalidraw/components/Trans";
 import { t } from "@excalidraw/excalidraw/i18n";
-import * as Sentry from "@sentry/browser";
 import React from "react";
 
 interface TopErrorBoundaryState {
   hasError: boolean;
-  sentryEventId: string;
   localStorage: string;
 }
 
@@ -15,7 +13,6 @@ export class TopErrorBoundary extends React.Component<
 > {
   state: TopErrorBoundaryState = {
     hasError: false,
-    sentryEventId: "",
     localStorage: "",
   };
 
@@ -24,25 +21,8 @@ export class TopErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    const _localStorage: any = {};
-    for (const [key, value] of Object.entries({ ...localStorage })) {
-      try {
-        _localStorage[key] = JSON.parse(value);
-      } catch (error: any) {
-        _localStorage[key] = value;
-      }
-    }
-
-    Sentry.withScope((scope) => {
-      scope.setExtras(errorInfo);
-      const eventId = Sentry.captureException(error);
-
-      this.setState((state) => ({
-        hasError: true,
-        sentryEventId: eventId,
-        localStorage: JSON.stringify(_localStorage),
-      }));
-    });
+    console.error("Application error:", error, errorInfo);
+    this.setState({ hasError: true });
   }
 
   private selectTextArea(event: React.MouseEvent<HTMLTextAreaElement>) {
@@ -52,30 +32,22 @@ export class TopErrorBoundary extends React.Component<
     }
   }
 
-  private async createGithubIssue() {
-    let body = "";
-    try {
-      const templateStrFn = (
-        await import(
-          /* webpackChunkName: "bug-issue-template" */ "../bug-issue-template"
-        )
-      ).default;
-      body = encodeURIComponent(templateStrFn(this.state.sentryEventId));
-    } catch (error: any) {
-      console.error(error);
-    }
-
-    window.open(
-      `https://github.com/excalidraw/excalidraw/issues/new?body=${body}`,
-      "_blank",
-      "noopener noreferrer",
-    );
-  }
-
   private errorSplash() {
     return (
       <div className="ErrorSplash excalidraw">
         <div className="ErrorSplash-messageContainer">
+          <div style={{ marginBottom: "1.5rem", textAlign: "center" }}>
+            <img
+              src="/parvez.png"
+              alt="Parvez Draw"
+              style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "12px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              }}
+            />
+          </div>
           <div className="ErrorSplash-paragraph bigger align-center">
             <Trans
               i18nKey="errorSplash.headingMain"
@@ -115,28 +87,7 @@ export class TopErrorBoundary extends React.Component<
           </div>
           <div>
             <div className="ErrorSplash-paragraph">
-              {t("errorSplash.trackedToSentry", {
-                eventId: this.state.sentryEventId,
-              })}
-            </div>
-            <div className="ErrorSplash-paragraph">
-              <Trans
-                i18nKey="errorSplash.openIssueMessage"
-                button={(el) => (
-                  <button onClick={() => this.createGithubIssue()}>{el}</button>
-                )}
-              />
-            </div>
-            <div className="ErrorSplash-paragraph">
-              <div className="ErrorSplash-details">
-                <label>{t("errorSplash.sceneContent")}</label>
-                <textarea
-                  rows={5}
-                  onPointerDown={this.selectTextArea}
-                  readOnly={true}
-                  value={this.state.localStorage}
-                />
-              </div>
+              {t("errorSplash.sceneContent")}
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ import { COLOR_PALETTE } from "./colors";
 export const supportsResizeObserver =
   typeof window !== "undefined" && "ResizeObserver" in window;
 
-export const APP_NAME = "Excalidraw";
+export const APP_NAME = "Parvez Draw";
 
 // distance when creating text before it's considered `autoResize: false`
 // we're using higher threshold so that clicks that end up being drags
@@ -250,13 +250,13 @@ export const STRING_MIME_TYPES = {
   text: "text/plain",
   html: "text/html",
   json: "application/json",
-  // excalidraw data
-  excalidraw: "application/vnd.excalidraw+json",
-  excalidrawClipboard: "application/vnd.excalidraw.clipboard+json",
+  // parvezdraw data
+  excalidraw: "application/vnd.parvezdraw+json",
+  excalidrawClipboard: "application/vnd.parvezdraw.clipboard+json",
   // LEGACY: fully-qualified library JSON data
-  excalidrawlib: "application/vnd.excalidrawlib+json",
-  // list of excalidraw library item ids
-  excalidrawlibIds: "application/vnd.excalidrawlib.ids+json",
+  excalidrawlib: "application/vnd.parvezdrawlib+json",
+  // list of parvezdraw library item ids
+  excalidrawlibIds: "application/vnd.parvezdrawlib.ids+json",
 } as const;
 
 export const MIME_TYPES = {
@@ -283,10 +283,10 @@ export const EXPORT_IMAGE_TYPES = {
 } as const;
 
 export const EXPORT_DATA_TYPES = {
-  excalidraw: "excalidraw",
-  excalidrawClipboard: "excalidraw/clipboard",
-  excalidrawLibrary: "excalidrawlib",
-  excalidrawClipboardWithAPI: "excalidraw-api/clipboard",
+  excalidraw: "parvezdraw",
+  excalidrawClipboard: "parvezdraw/clipboard",
+  excalidrawLibrary: "parvezdrawlib",
+  excalidrawClipboardWithAPI: "parvezdraw-api/clipboard",
 } as const;
 
 export const getExportSource = () =>

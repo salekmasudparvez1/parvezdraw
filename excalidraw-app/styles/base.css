@@ -1,0 +1,187 @@
+/**
+ * Parvez Draw — Base Reset & Global Styles
+ */
+
+/* ============================================
+   RESET
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
+  font-family: var(--pd-font-sans);
+  font-size: var(--pd-text-base);
+  line-height: var(--pd-leading-normal);
+  color: var(--pd-text-primary);
+  background: var(--pd-bg-canvas);
+  overflow: hidden;
+}
+
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pd-gray-300);
+  border-radius: var(--pd-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pd-gray-400);
+}
+
+.pd-theme--dark ::-webkit-scrollbar-thumb {
+  background: var(--pd-gray-700);
+}
+
+.pd-theme--dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--pd-gray-600);
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--pd-green-500);
+  outline-offset: 2px;
+}
+
+.pd-theme--dark :focus-visible {
+  outline-color: var(--pd-green-400);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+
+::selection {
+  background: var(--pd-green-100);
+  color: var(--pd-green-900);
+}
+
+.pd-theme--dark ::selection {
+  background: rgba(0, 106, 78, 0.3);
+  color: var(--pd-green-100);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Glass effect */
+.pd-glass {
+  background: var(--pd-glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--pd-glass-border);
+}
+
+/* Visually hidden but accessible */
+.pd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Prevent text selection on UI elements */
+.pd-no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth transitions for interactive elements */
+.pd-transition-fast {
+  transition: all var(--pd-duration-fast) var(--pd-ease-default);
+}
+
+.pd-transition-normal {
+  transition: all var(--pd-duration-normal) var(--pd-ease-default);
+}
+
+.pd-transition-slow {
+  transition: all var(--pd-duration-slow) var(--pd-ease-default);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+
+@media (forced-colors: active) {
+  .pd-glass {
+    border: 1px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
