@@ -1,4 +1,4 @@
-import { Footer } from "@excalidraw/excalidraw/index";
+import { Footer } from "@prof/core/index";
 import React from "react";
 
 import { DebugFooter, isVisualDebuggerEnabled } from "./DebugCanvas";

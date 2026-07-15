@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 
-import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
+import type { ExcalidrawImperativeAPI } from "@prof/core/types";
 
 import { AppSettings } from "../data/settings";
 import { LocalData } from "../data/LocalData";

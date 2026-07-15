@@ -9,8 +9,8 @@
 @import "./styles/base.css";
 @import "./styles/components.css";
 
-/* Import Excalidraw's variable definitions (needed for engine compatibility) */
-@import "../packages/excalidraw/css/variables.module.scss";
+/* Import Prof variable definitions (needed for engine compatibility) */
+@import "../packages/prof/css/variables.module.scss";
 
 /**
  * Override Excalidraw's CSS variables with Parvez Draw tokens.
@@ -24,27 +24,27 @@
   --color-primary: #006a4e;
   --color-primary-darker: #004a36;
   --color-primary-darkest: #003a2a;
-  --color-primary-light: #d1f2e1;
-  --color-primary-light-darker: #a3e4c3;
+  --color-primary-light: rgba(0, 106, 78, 0.15);
+  --color-primary-light-darker: rgba(0, 106, 78, 0.25);
   --color-primary-hover: #005a42;
   --color-primary-contrast-offset: #006a4e;
 
   /* ============================================
-     SURFACE COLORS
+     SURFACE COLORS — Dark toolbar theme
      ============================================ */
-  --color-surface-high: #f4f6f8;
-  --color-surface-mid: #fafbfc;
-  --color-surface-low: #f0faf5;
-  --color-surface-lowest: #ffffff;
-  --color-on-surface: #161b24;
+  --color-surface-high: #3a3a3a;
+  --color-surface-mid: #2d2d2d;
+  --color-surface-low: #252525;
+  --color-surface-lowest: #1a1a1a;
+  --color-on-surface: #e0e0e0;
 
   /* ============================================
-     BRAND COLORS
+     BRAND COLORS — Photoshop-like active states
      ============================================ */
   --color-brand-hover: #005a42;
-  --color-brand-active: #004a36;
+  --color-brand-active: #006a4e;
   --color-on-primary-container: #ffffff;
-  --color-surface-primary-container: #d1f2e1;
+  --color-surface-primary-container: #006a4e;
 
   /* ============================================
      DANGER — Bangladesh Red
@@ -54,25 +54,25 @@
   --color-danger-darker: #b0162c;
   --color-danger-darkest: #8c1224;
   --color-danger-text: #ffffff;
-  --color-danger-background: #fff1f3;
+  --color-danger-background: #2d1a1d;
   --color-danger-icon-background: #ff6478;
-  --color-danger-color: #d41e36;
+  --color-danger-color: #ff6b7a;
   --color-danger-icon-color: #ffffff;
 
   /* ============================================
      WARNING
      ============================================ */
-  --color-warning: #fef3c7;
+  --color-warning: #3d2e0a;
   --color-warning-dark: #f59e0b;
-  --color-text-warning: #161b24;
+  --color-text-warning: #f59e0b;
 
   /* ============================================
      SUCCESS
      ============================================ */
-  --color-success: #d1f2e1;
-  --color-success-darker: #006a4e;
-  --color-success-darkest: #004a36;
-  --color-success-text: #003a2a;
+  --color-success: #006a4e;
+  --color-success-darker: #004a36;
+  --color-success-darkest: #003a2a;
+  --color-success-text: #6dd4a0;
   --color-success-contrast: #006a4e;
   --color-success-contrast-hover: #005a42;
   --color-success-contrast-active: #004a36;
@@ -80,8 +80,8 @@
   /* ============================================
      BUTTON DESTRUCTIVE
      ============================================ */
-  --button-destructive-bg-color: #fff1f3;
-  --button-destructive-color: #d41e36;
+  --button-destructive-bg-color: #2d1a1d;
+  --button-destructive-color: #ff6b7a;
 
   /* ============================================
      SELECTION
@@ -92,13 +92,13 @@
      LOGO
      ============================================ */
   --color-logo-icon: #006a4e;
-  --color-logo-text: #003a2a;
+  --color-logo-text: #e0e0e0;
 
   /* ============================================
      BADGE
      ============================================ */
   --color-badge: #006a4e;
-  --background-color-badge: #d1f2e1;
+  --background-color-badge: rgba(0, 106, 78, 0.2);
 
   /* ============================================
      BORDER RADIUS — Premium, rounded
@@ -109,57 +109,75 @@
   /* ============================================
      FOCUS
      ============================================ */
-  --focus-highlight-color: #d1f2e1;
+  --focus-highlight-color: #006a4e;
 
   /* ============================================
      LINK
      ============================================ */
-  --link-color: #006a4e;
-  --link-color-hover: #004a36;
-  --link-color-active: #d1f2e1;
+  --link-color: #4ade80;
+  --link-color-hover: #22c55e;
+  --link-color-active: rgba(0, 106, 78, 0.3);
 
   /* ============================================
-     ISLAND (Panel) — Glass effect
+     ISLAND (Panel) — Dark, Photoshop-like
      ============================================ */
-  --island-bg-color: rgba(255, 255, 255, 0.82);
-  --island-bg-color-alt: rgba(255, 255, 255, 0.9);
+  --island-bg-color: #2d2d2d;
+  --island-bg-color-alt: #333333;
+  --popup-bg-color: #2d2d2d;
 
   /* ============================================
-     SHADOWS — Soft, premium
+     SHADOWS — Dark, premium
      ============================================ */
-  --shadow-island: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-island-stronger: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.06);
-  --sidebar-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-island: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
+  --shadow-island-stronger: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --sidebar-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
 
   /* ============================================
-     INPUT
+     INPUT — Dark
      ============================================ */
-  --input-bg-color: #ffffff;
-  --input-border-color: #d1d8e0;
-  --input-hover-bg-color: #fafbfc;
-  --input-label-color: #4a5568;
+  --input-bg-color: #1a1a1a;
+  --input-border-color: #404040;
+  --input-hover-bg-color: #252525;
+  --input-label-color: #a0a0a0;
 
   /* ============================================
-     DEFAULTS
+     DEFAULTS — Dark
      ============================================ */
-  --default-bg-color: #ffffff;
-  --default-border-color: #e8ecf0;
+  --default-bg-color: #1a1a1a;
+  --default-border-color: #404040;
   --default-button-size: 2rem;
   --default-icon-size: 1rem;
   --lg-button-size: 2.25rem;
   --lg-icon-size: 1rem;
 
   /* ============================================
-     TEXT
+     BUTTON STATES — Dark
      ============================================ */
-  --text-primary-color: #161b24;
+  --button-hover-bg: #3a3a3a;
+  --button-active-bg: #3a3a3a;
+  --button-active-border: #006a4e;
 
   /* ============================================
-     SCROLLBAR
+     TEXT — Light on dark
      ============================================ */
-  --scrollbar-thumb: #d1d8e0;
-  --scrollbar-thumb-hover: #a0adc0;
+  --text-primary-color: #e0e0e0;
+
+  /* ============================================
+     SCROLLBAR — Dark
+     ============================================ */
+  --scrollbar-thumb: #404040;
+  --scrollbar-thumb-hover: #555555;
+
+  /* ============================================
+     ICON FILL — Light on dark
+     ============================================ */
+  --icon-fill-color: #c0c0c0;
+
+  /* ============================================
+     KEYBINDING
+     ============================================ */
+  --keybinding-color: #777777;
 
   /* ============================================
      OVERRIDES — Excalidraw internals
@@ -173,14 +191,18 @@
     margin-inline-start: auto;
   }
 
-  /* Dropdown menu items */
+  /* Dropdown menu items — Dark */
   .dropdown-menu-container {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+
     .dropdown-menu-item {
+      color: #e0e0e0;
       &:hover {
-        background: #f0faf5 !important;
+        background: #3a3a3a !important;
       }
       &.highlighted {
-        color: #006a4e;
+        color: #4ade80;
         font-weight: 600;
       }
     }
@@ -203,26 +225,167 @@
     backdrop-filter: blur(12px);
 
     &--warning {
-      background-color: #fef3c7;
-      color: #92400e;
+      background-color: #3d2e0a;
+      color: #f59e0b;
     }
     &--danger {
-      background-color: #f42a41;
+      background-color: #2d1a1d;
+      color: #ff6b7a;
+    }
+  }
+
+  /* ============================================
+     TOOLBAR — Photoshop-like dark
+     ============================================ */
+  .App-toolbar-container {
+    .ToolIcon__icon {
+      color: #c0c0c0;
+      svg {
+        color: #c0c0c0;
+      }
+    }
+  }
+
+  /* Active tool — Bright green on dark */
+  .ToolIcon_type_toggle.ToolIcon--checked .ToolIcon__icon {
+    background: #006a4e;
+    border-color: #006a4e;
+    svg {
       color: #ffffff;
     }
   }
 
-  /* Toolbar active state */
-  .ToolIcon_type_toggle.ToolIcon--checked .ToolIcon__icon {
-    background: #f0faf5 !important;
-    border-color: #006a4e !important;
+  .ToolIcon.fillable.ToolIcon_type_toggle.ToolIcon--checked .ToolIcon__icon svg {
+    fill: #ffffff;
+  }
+
+  /* Hover state — Subtle lightening on dark */
+  .ToolIcon__icon:hover {
+    background: #3a3a3a;
+  }
+
+  /* Active (mousedown) state */
+  .ToolIcon__icon:active {
+    background: #3a3a3a;
+    border: 1px solid #006a4e;
+    svg {
+      color: #ffffff;
+    }
   }
 
   /* Generic active states */
   .active,
   .ToolIcon--checked {
-    background-color: #f0faf5;
+    background-color: #006a4e;
     border-color: #006a4e;
+    color: #ffffff;
+  }
+
+  /* Eraser active */
+  .eraser {
+    &.active {
+      background-color: #006a4e;
+    }
+    &.ToolIcon:hover {
+      --icon-fill-color: #ffffff;
+      --keybinding-color: #ffffff;
+    }
+  }
+
+  /* Extra tools trigger */
+  .App-toolbar__extra-tools-trigger {
+    color: #c0c0c0;
+    &:hover {
+      color: #e0e0e0;
+    }
+    &--selected,
+    &--selected:hover {
+      background: rgba(0, 106, 78, 0.2);
+      color: #4ade80;
+    }
+  }
+
+  /* Extra tools dropdown — Dark */
+  .App-toolbar__extra-tools-dropdown {
+    background: #2d2d2d;
+    border: 1px solid #404040;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ============================================
+     COLOR PICKER — Dark Photoshop-like
+     ============================================ */
+  .color-picker-container {
+    .color-picker__button {
+      border: 1px solid #555;
+      &:hover {
+        transform: scale(1.075);
+      }
+    }
+  }
+
+  .color-picker-content--default {
+    background: #2d2d2d;
+  }
+
+  .color-picker-swatch {
+    border-color: #404040;
+    &:hover {
+      border-color: #666;
+    }
+    &:focus {
+      box-shadow: 0 0 4px 1px #006a4e;
+      border-color: #006a4e;
+    }
+  }
+
+  .color-input-container {
+    border-color: #404040 !important;
+    background: #1a1a1a;
+    &:focus-within {
+      box-shadow: 0 0 0 1px #006a4e;
+    }
+  }
+
+  .color-picker-input {
+    border-color: #404040 !important;
+    color: #e0e0e0 !important;
+    background-color: #1a1a1a !important;
+  }
+
+  .color-picker-hash {
+    border-color: #404040 !important;
+    background: #1a1a1a;
+    color: #777;
+  }
+
+  /* Properties popover — Dark */
+  .Island {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ============================================
+     BUTTONS — Dark
+     ============================================ */
+  .buttonList {
+    .ToolIcon_type_button,
+    .ToolIcon_type_button:hover {
+      color: #c0c0c0;
+    }
+    .ToolIcon_type_button:active {
+      background: #3a3a3a;
+    }
+    .ToolIcon_type_button.active,
+    .ToolIcon_type_button.ToolIcon--checked {
+      background-color: #006a4e;
+      border-color: #006a4e;
+      color: #ffffff;
+      svg {
+        color: #ffffff;
+      }
+    }
   }
 
   /* Destructive buttons */
@@ -380,4 +543,119 @@
   &:hover {
     background: #a0adc0;
   }
+}
+
+/* ============================================
+   RECORDING — Time-lapse + Voice
+   ============================================ */
+
+.pd-recording-active {
+  position: relative;
+}
+
+.pd-recording-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pd-recording-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f42a41;
+  animation: pd-recording-pulse 1s ease-in-out infinite;
+}
+
+@keyframes pd-recording-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.pd-recording-time {
+  font-size: 11px;
+  font-family: var(--pd-font-mono);
+  color: #f42a41;
+  font-weight: 600;
+  min-width: 36px;
+}
+
+.pd-recording-muted {
+  opacity: 0.5;
+}
+
+/* Recording Panel */
+.pd-recording-panel {
+  position: fixed;
+  top: var(--pd-topbar-height);
+  right: 0;
+  width: 280px;
+  max-height: 400px;
+  background: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 0 0 0 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.pd-recording-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #404040;
+}
+
+.pd-recording-panel__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.pd-recording-panel__list {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.pd-recording-panel__empty {
+  padding: 24px;
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+}
+
+.pd-recording-panel__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid #333;
+  transition: background 100ms;
+
+  &:hover {
+    background: #3a3a3a;
+  }
+}
+
+.pd-recording-panel__info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #c0c0c0;
+  font-size: 12px;
+}
+
+.pd-recording-panel__duration {
+  font-family: var(--pd-font-mono);
+  font-weight: 600;
+}
+
+.pd-recording-panel__date {
+  color: #777;
+}
+
+.pd-recording-panel__actions {
+  display: flex;
+  gap: 4px;
 }

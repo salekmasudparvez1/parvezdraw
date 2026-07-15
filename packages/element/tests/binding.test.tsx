@@ -1,27 +1,27 @@
-import { KEYS, arrayToMap } from "@excalidraw/common";
+import { KEYS, arrayToMap } from "@prof/common";
 
-import { pointFrom } from "@excalidraw/math";
+import { pointFrom } from "@prof/math";
 
-import { actionWrapTextInContainer } from "@excalidraw/excalidraw/actions/actionBoundText";
+import { actionWrapTextInContainer } from "@prof/core/actions/actionBoundText";
 
-import { Excalidraw, isLinearElement } from "@excalidraw/excalidraw";
+import { Excalidraw, isLinearElement } from "@prof/core";
 
-import { API } from "@excalidraw/excalidraw/tests/helpers/api";
-import { UI, Pointer, Keyboard } from "@excalidraw/excalidraw/tests/helpers/ui";
+import { API } from "@prof/core/tests/helpers/api";
+import { UI, Pointer, Keyboard } from "@prof/core/tests/helpers/ui";
 import {
   act,
   fireEvent,
   render,
-} from "@excalidraw/excalidraw/tests/test-utils";
+} from "@prof/core/tests/test-utils";
 
-import { defaultLang, setLanguage } from "@excalidraw/excalidraw/i18n";
+import { defaultLang, setLanguage } from "@prof/core/i18n";
 
 import { bindBindingElement, updateBoundElements } from "../src/binding";
 import { getTransformHandles } from "../src/transformHandles";
 import {
   getTextEditor,
   TEXT_EDITOR_SELECTOR,
-} from "../../excalidraw/tests/queries/dom";
+} from "../../prof/tests/queries/dom";
 
 import type {
   ExcalidrawArrowElement,

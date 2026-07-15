@@ -34,7 +34,7 @@ import {
   MoveVertical,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { ExcalidrawElement } from "@excalidraw/element/types";
+import type { ExcalidrawElement } from "@prof/element/types";
 
 interface PropertiesPanelProps {
   selectedElements: ExcalidrawElement[];

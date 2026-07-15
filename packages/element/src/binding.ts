@@ -4,7 +4,7 @@ import {
   getGridPoint,
   invariant,
   isTransparent,
-} from "@excalidraw/common";
+} from "@prof/common";
 
 import {
   PRECISION,
@@ -20,12 +20,12 @@ import {
   vectorNormalize,
   vectorScale,
   type GlobalPoint,
-} from "@excalidraw/math";
+} from "@prof/math";
 
-import type { LineSegment, LocalPoint, Radians } from "@excalidraw/math";
-import type { AppState, NullableGridSize } from "@excalidraw/excalidraw/types";
-import type { MapEntry, Mutable } from "@excalidraw/common/utility-types";
-import type { Bounds } from "@excalidraw/common";
+import type { LineSegment, LocalPoint, Radians } from "@prof/math";
+import type { AppState, NullableGridSize } from "@prof/core/types";
+import type { MapEntry, Mutable } from "@prof/common/utility-types";
+import type { Bounds } from "@prof/common";
 
 import { getCenterForBounds } from "./bounds";
 import {

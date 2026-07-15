@@ -1,16 +1,16 @@
-import { invariant, toBrandedType, type Bounds } from "@excalidraw/common";
+import { invariant, toBrandedType, type Bounds } from "@prof/common";
 
 import {
   clamp,
   type GlobalPoint,
   pointFrom,
   type LocalPoint,
-} from "@excalidraw/math";
+} from "@prof/math";
 
 import type {
   AppState,
   PendingExcalidrawElements,
-} from "@excalidraw/excalidraw/types";
+} from "@prof/core/types";
 
 import { bindBindingElement } from "./binding";
 import { updateElbowArrowPoints } from "./elbowArrow";

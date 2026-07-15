@@ -1,3 +1,3 @@
 export * from "./export";
-export { elementsOverlappingBBox } from "@excalidraw/element";
-export { getCommonBounds } from "@excalidraw/element";
+export { elementsOverlappingBBox } from "@prof/element";
+export { getCommonBounds } from "@prof/element";

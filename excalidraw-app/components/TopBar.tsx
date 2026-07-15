@@ -29,7 +29,8 @@ import {
   Printer,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Theme } from "@excalidraw/element/types";
+import type { Theme } from "@prof/element/types";
+import { DrawingRecorder } from "./DrawingRecorder";
 
 interface TopBarProps {
   theme: Theme | "system";
@@ -49,6 +50,7 @@ interface TopBarProps {
   onSidebarToggle: () => void;
   workspaceName?: string;
   isSaved?: boolean;
+  canvasRef?: React.RefObject<HTMLCanvasElement | null>;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -69,6 +71,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onSidebarToggle,
   workspaceName = "Untitled",
   isSaved = true,
+  canvasRef,
 }) => {
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
 
@@ -156,6 +159,11 @@ export const TopBar: React.FC<TopBarProps> = ({
 
       {/* Right section — Actions */}
       <div className="pd-topbar__right">
+        {/* Recording */}
+        {canvasRef && <DrawingRecorder canvasRef={canvasRef} />}
+
+        <div className="pd-divider--vertical" />
+
         {/* Export dropdown */}
         <div className="pd-topbar__dropdown">
           <button

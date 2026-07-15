@@ -5,8 +5,8 @@
 
 import { createStore, get, set, del, keys } from "idb-keyval";
 
-import type { ExcalidrawElement } from "@excalidraw/element/types";
-import type { AppState } from "@excalidraw/excalidraw/types";
+import type { ExcalidrawElement } from "@prof/element/types";
+import type { AppState } from "@prof/core/types";
 
 const DB_STORE = createStore("parvezdraw-version-history-db", "versions");
 

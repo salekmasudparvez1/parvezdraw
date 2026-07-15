@@ -1,7 +1,7 @@
-import { THEME } from "@excalidraw/excalidraw";
+import { THEME } from "@prof/core";
 import { useEffect, useLayoutEffect, useState } from "react";
 
-import type { Theme } from "@excalidraw/element/types";
+import type { Theme } from "@prof/element/types";
 
 import { STORAGE_KEYS } from "./app_constants";
 

@@ -1,4 +1,4 @@
-import type { UIAppState } from "@excalidraw/excalidraw/types";
+import type { UIAppState } from "@prof/core/types";
 
 import { getSelectedElements } from "./selection";
 

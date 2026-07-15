@@ -24,66 +24,66 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [
         {
-          find: /^@excalidraw\/common$/,
+          find: /^@prof\/common$/,
           replacement: path.resolve(
             __dirname,
             "../packages/common/src/index.ts",
           ),
         },
         {
-          find: /^@excalidraw\/common\/(.*?)/,
+          find: /^@prof\/common\/(.*?)/,
           replacement: path.resolve(__dirname, "../packages/common/src/$1"),
         },
         {
-          find: /^@excalidraw\/element$/,
+          find: /^@prof\/element$/,
           replacement: path.resolve(
             __dirname,
             "../packages/element/src/index.ts",
           ),
         },
         {
-          find: /^@excalidraw\/element\/(.*?)/,
+          find: /^@prof\/element\/(.*?)/,
           replacement: path.resolve(__dirname, "../packages/element/src/$1"),
         },
         {
-          find: /^@excalidraw\/excalidraw$/,
+          find: /^@prof\/core$/,
           replacement: path.resolve(
             __dirname,
-            "../packages/excalidraw/index.tsx",
+            "../packages/prof/index.tsx",
           ),
         },
         {
-          find: /^@excalidraw\/excalidraw\/(.*?)/,
-          replacement: path.resolve(__dirname, "../packages/excalidraw/$1"),
+          find: /^@prof\/core\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/prof/$1"),
         },
         {
-          find: /^@excalidraw\/math$/,
+          find: /^@prof\/math$/,
           replacement: path.resolve(__dirname, "../packages/math/src/index.ts"),
         },
         {
-          find: /^@excalidraw\/math\/(.*?)/,
+          find: /^@prof\/math\/(.*?)/,
           replacement: path.resolve(__dirname, "../packages/math/src/$1"),
         },
         {
-          find: /^@excalidraw\/utils$/,
+          find: /^@prof\/utils$/,
           replacement: path.resolve(
             __dirname,
             "../packages/utils/src/index.ts",
           ),
         },
         {
-          find: /^@excalidraw\/utils\/(.*?)/,
+          find: /^@prof\/utils\/(.*?)/,
           replacement: path.resolve(__dirname, "../packages/utils/src/$1"),
         },
         {
-          find: /^@excalidraw\/fractional-indexing$/,
+          find: /^@prof\/fractional-indexing$/,
           replacement: path.resolve(
             __dirname,
             "../packages/fractional-indexing/src/index.ts",
           ),
         },
         {
-          find: /^@excalidraw\/laser-pointer$/,
+          find: /^@prof\/laser-pointer$/,
           replacement: path.resolve(
             __dirname,
             "../packages/laser-pointer/src/index.ts",
@@ -109,7 +109,7 @@ export default defineConfig(({ mode }) => {
           // or fallback hence not clubbing with locales so first load followed by offline mode works fine. This is how CRA used to work too.
           manualChunks(id) {
             if (
-              id.includes("packages/excalidraw/locales") &&
+              id.includes("packages/prof/locales") &&
               id.match(/en.json|percentages.json/) === null
             ) {
               const index = id.indexOf("locales/");

@@ -1,10 +1,10 @@
-import { arrayToMap, isShallowEqual, type Bounds } from "@excalidraw/common";
+import { arrayToMap, isShallowEqual, type Bounds } from "@prof/common";
 
 import type {
   AppState,
   BoxSelectionMode,
   InteractiveCanvasAppState,
-} from "@excalidraw/excalidraw/types";
+} from "@prof/core/types";
 
 import { elementsOverlappingBBox, getElementAbsoluteCoords } from "./bounds";
 import { isElementInViewport } from "./sizeHelpers";

@@ -8,9 +8,9 @@ An offline-first whiteboard application built on the Excalidraw codebase.
 
 Parvez Draw is a **monorepo** with a clear separation between the core library and the application:
 
-- **`packages/excalidraw/`** - Main React component library (internal `@excalidraw/excalidraw`)
+- **`packages/prof/`** - Main React component library (`@prof/core`)
 - **`excalidraw-app/`** - Full-featured web application (Parvez Draw)
-- **`packages/`** - Core packages: `@excalidraw/common`, `@excalidraw/element`, `@excalidraw/math`, `@excalidraw/utils`
+- **`packages/`** - Core packages: `@prof/common`, `@prof/element`, `@prof/math`, `@prof/utils`
 
 ## Development Workflow
 
@@ -48,12 +48,13 @@ yarn start           # Start development server
 - **Added** recent files list
 - **Added** PDF export
 - **Added** settings: auto-save interval, performance mode, high DPI
+- **Added** drawing recording (time-lapse + voice)
 - **File format** renamed to `.parvezdraw` (backward compatible)
 
 ### Storage
 
 - **localStorage** - App state, preferences, recent files
-- **IndexedDB** - Files (images), version history, library
+- **IndexedDB** - Files (images), version history, library, recordings
 
 ### Key Files
 
@@ -61,6 +62,8 @@ yarn start           # Start development server
 - `excalidraw-app/data/LocalData.ts` - Local storage manager
 - `excalidraw-app/data/VersionHistory.ts` - Version snapshots
 - `excalidraw-app/data/RecentFiles.ts` - Recent files list
+- `excalidraw-app/data/RecordingHistory.ts` - Recording storage
 - `excalidraw-app/data/settings.ts` - App settings
 - `excalidraw-app/components/AppMainMenu.tsx` - Main menu with settings
+- `excalidraw-app/components/DrawingRecorder.tsx` - Recording UI
 - `packages/common/src/constants.ts` - App name and constants

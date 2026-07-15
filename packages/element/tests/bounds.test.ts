@@ -1,8 +1,8 @@
-import { pointFrom } from "@excalidraw/math";
-import { arrayToMap, type Bounds, ROUNDNESS } from "@excalidraw/common";
-import { API } from "@excalidraw/excalidraw/tests/helpers/api";
+import { pointFrom } from "@prof/math";
+import { arrayToMap, type Bounds, ROUNDNESS } from "@prof/common";
+import { API } from "@prof/core/tests/helpers/api";
 
-import type { LocalPoint } from "@excalidraw/math";
+import type { LocalPoint } from "@prof/math";
 
 import {
   elementsOverlappingBBox,

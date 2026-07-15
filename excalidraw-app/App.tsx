@@ -4,15 +4,15 @@ import {
   useEditorInterface,
   ExcalidrawAPIProvider,
   useExcalidrawAPI,
-} from "@excalidraw/excalidraw";
-import { trackEvent } from "@excalidraw/excalidraw/analytics";
+} from "@prof/core";
+import { trackEvent } from "@prof/core/analytics";
 import {
   CommandPalette,
   DEFAULT_CATEGORIES,
-} from "@excalidraw/excalidraw/components/CommandPalette/CommandPalette";
-import { ErrorDialog } from "@excalidraw/excalidraw/components/ErrorDialog";
-import { OverwriteConfirmDialog } from "@excalidraw/excalidraw/components/OverwriteConfirm/OverwriteConfirm";
-import Trans from "@excalidraw/excalidraw/components/Trans";
+} from "@prof/core/components/CommandPalette/CommandPalette";
+import { ErrorDialog } from "@prof/core/components/ErrorDialog";
+import { OverwriteConfirmDialog } from "@prof/core/components/OverwriteConfirm/OverwriteConfirm";
+import Trans from "@prof/core/components/Trans";
 import {
   APP_NAME,
   EVENT,
@@ -23,31 +23,31 @@ import {
   isTestEnv,
   preventUnload,
   resolvablePromise,
-} from "@excalidraw/common";
-import polyfill from "@excalidraw/excalidraw/polyfill";
+} from "@prof/common";
+import polyfill from "@prof/core/polyfill";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { loadFromBlob } from "@excalidraw/excalidraw/data/blob";
-import { t } from "@excalidraw/excalidraw/i18n";
+import { loadFromBlob } from "@prof/core/data/blob";
+import { t } from "@prof/core/i18n";
 
-import { GithubIcon } from "@excalidraw/excalidraw/components/icons";
-import { newElementWith } from "@excalidraw/element";
+import { GithubIcon } from "@prof/core/components/icons";
+import { newElementWith } from "@prof/element";
 import {
   restoreAppState,
   restoreElements,
-} from "@excalidraw/excalidraw/data/restore";
-import { isInitializedImageElement } from "@excalidraw/element";
+} from "@prof/core/data/restore";
+import { isInitializedImageElement } from "@prof/element";
 import clsx from "clsx";
 import {
   parseLibraryTokensFromUrl,
   useHandleLibrary,
-} from "@excalidraw/excalidraw/data/library";
+} from "@prof/core/data/library";
 
 import type {
   ExcalidrawElement,
   FileId,
   NonDeletedExcalidrawElement,
   OrderedExcalidrawElement,
-} from "@excalidraw/element/types";
+} from "@prof/element/types";
 import type {
   AppState,
   ExcalidrawImperativeAPI,
@@ -55,9 +55,9 @@ import type {
   ExcalidrawInitialDataState,
   UIAppState,
   ExcalidrawProps,
-} from "@excalidraw/excalidraw/types";
-import type { ResolutionType } from "@excalidraw/common/utility-types";
-import type { ResolvablePromise } from "@excalidraw/common/utils";
+} from "@prof/core/types";
+import type { ResolutionType } from "@prof/common/utility-types";
+import type { ResolvablePromise } from "@prof/common/utils";
 
 import CustomStats from "./CustomStats";
 import {
@@ -142,6 +142,26 @@ const ExcalidrawWrapper = () => {
   const [langCode, setLangCode] = useAppLangCode();
 
   const editorInterface = useEditorInterface();
+
+  // Canvas ref for recording feature
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
+  const [canvasRef, setCanvasRef] = useState<HTMLCanvasElement | null>(null);
+
+  // Get canvas element when container mounts
+  useEffect(() => {
+    const findCanvas = () => {
+      if (canvasContainerRef.current) {
+        const canvas = canvasContainerRef.current.querySelector("canvas");
+        if (canvas) {
+          setCanvasRef(canvas);
+        }
+      }
+    };
+    // Try immediately and after a short delay (canvas may mount later)
+    findCanvas();
+    const timer = setTimeout(findCanvas, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Auto-save hook
   useAutoSave(excalidrawAPI);
@@ -566,6 +586,7 @@ const ExcalidrawWrapper = () => {
         onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
         workspaceName="Untitled"
         isSaved={true}
+        canvasRef={{ current: canvasRef }}
       />
 
       {/* Parvez Draw Left Sidebar */}
@@ -576,6 +597,7 @@ const ExcalidrawWrapper = () => {
 
       {/* Excalidraw Canvas — positioned to account for new UI */}
       <div
+        ref={canvasContainerRef}
         className="pd-canvas-container"
         style={{
           position: "fixed",
@@ -689,7 +711,7 @@ const ExcalidrawWrapper = () => {
           // Zoom in by updating the zoom value
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
-            const newZoom = Math.min(currentZoom * 1.2, 5) as import("@excalidraw/excalidraw/types").NormalizedZoomValue;
+            const newZoom = Math.min(currentZoom * 1.2, 5) as import("@prof/core/types").NormalizedZoomValue;
             excalidrawAPI.updateScene({
               appState: { zoom: { value: newZoom } },
             });
@@ -699,7 +721,7 @@ const ExcalidrawWrapper = () => {
           // Zoom out by updating the zoom value
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
-            const newZoom = Math.max(currentZoom / 1.2, 0.1) as import("@excalidraw/excalidraw/types").NormalizedZoomValue;
+            const newZoom = Math.max(currentZoom / 1.2, 0.1) as import("@prof/core/types").NormalizedZoomValue;
             excalidrawAPI.updateScene({
               appState: { zoom: { value: newZoom } },
             });
@@ -709,7 +731,7 @@ const ExcalidrawWrapper = () => {
           // Reset zoom to 100%
           if (excalidrawAPI) {
             excalidrawAPI.updateScene({
-              appState: { zoom: { value: 1 as import("@excalidraw/excalidraw/types").NormalizedZoomValue } },
+              appState: { zoom: { value: 1 as import("@prof/core/types").NormalizedZoomValue } },
             });
           }
         }}

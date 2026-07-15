@@ -1,4 +1,4 @@
-import { API } from "@excalidraw/excalidraw/tests/helpers/api";
+import { API } from "@prof/core/tests/helpers/api";
 
 import { newElementWith } from "../src/mutateElement";
 import {

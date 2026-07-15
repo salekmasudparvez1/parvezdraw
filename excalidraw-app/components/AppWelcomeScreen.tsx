@@ -1,5 +1,5 @@
-import { useI18n } from "@excalidraw/excalidraw/i18n";
-import { WelcomeScreen } from "@excalidraw/excalidraw/index";
+import { useI18n } from "@prof/core/i18n";
+import { WelcomeScreen } from "@prof/core/index";
 import React from "react";
 
 const ParvezLogo = () => (

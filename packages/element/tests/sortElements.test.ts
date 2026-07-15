@@ -1,6 +1,6 @@
-import { API } from "@excalidraw/excalidraw/tests/helpers/api";
+import { API } from "@prof/core/tests/helpers/api";
 
-import { mutateElement } from "@excalidraw/element";
+import { mutateElement } from "@prof/element";
 
 import { normalizeElementOrder } from "../src/sortElements";
 

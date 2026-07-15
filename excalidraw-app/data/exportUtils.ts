@@ -3,12 +3,12 @@
  * Handles exporting to PNG, SVG, PDF, and JSON formats
  */
 
-import { exportToSvg } from "@excalidraw/excalidraw";
+import { exportToSvg } from "@prof/core";
 
 import type {
   NonDeletedExcalidrawElement,
-} from "@excalidraw/element/types";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
+} from "@prof/element/types";
+import type { AppState, BinaryFiles } from "@prof/core/types";
 
 type ExportOptions = {
   elements: readonly NonDeletedExcalidrawElement[];

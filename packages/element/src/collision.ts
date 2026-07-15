@@ -1,4 +1,4 @@
-import { invariant, isTransparent, type Bounds } from "@excalidraw/common";
+import { invariant, isTransparent, type Bounds } from "@prof/common";
 import {
   curveIntersectLineSegment,
   isPointWithinBounds,
@@ -11,21 +11,21 @@ import {
   vectorFromPoint,
   vectorNormalize,
   vectorScale,
-} from "@excalidraw/math";
+} from "@prof/math";
 
 import {
   ellipse,
   ellipseSegmentInterceptPoints,
-} from "@excalidraw/math/ellipse";
+} from "@prof/math/ellipse";
 
 import type {
   Curve,
   GlobalPoint,
   LineSegment,
   Radians,
-} from "@excalidraw/math";
+} from "@prof/math";
 
-import type { FrameNameBounds } from "@excalidraw/excalidraw/types";
+import type { FrameNameBounds } from "@prof/core/types";
 
 import { isPathALoop } from "./utils";
 import {

@@ -1,10 +1,10 @@
-import { eyeIcon } from "@excalidraw/excalidraw/components/icons";
-import { MainMenu } from "@excalidraw/excalidraw/index";
+import { eyeIcon } from "@prof/core/components/icons";
+import { MainMenu } from "@prof/core/index";
 import React from "react";
 
-import { isDevEnv } from "@excalidraw/common";
+import { isDevEnv } from "@prof/common";
 
-import type { Theme } from "@excalidraw/element/types";
+import type { Theme } from "@prof/element/types";
 
 import { LanguageList } from "../app-language/LanguageList";
 import { AppSettings } from "../data/settings";

@@ -6,13 +6,13 @@ import "@testing-library/jest-dom";
 import { configure } from "@testing-library/react";
 import { vi } from "vitest";
 
-import polyfill from "./packages/excalidraw/polyfill";
-import { mockThrottleRAF } from "./packages/excalidraw/tests/helpers/mocks";
-import { yellow } from "./packages/excalidraw/tests/helpers/colorize";
+import polyfill from "./packages/prof/polyfill";
+import { mockThrottleRAF } from "./packages/prof/tests/helpers/mocks";
+import { yellow } from "./packages/prof/tests/helpers/colorize";
 import {
   PolyfillLocalStorage,
   testPolyfills,
-} from "./packages/excalidraw/tests/helpers/polyfills";
+} from "./packages/prof/tests/helpers/polyfills";
 
 Object.assign(globalThis, testPolyfills);
 PolyfillLocalStorage();
@@ -32,8 +32,8 @@ if (!debugDom) {
   });
 }
 
-vi.mock("@excalidraw/common", async (importOriginal) => {
-  const module = await importOriginal<typeof import("@excalidraw/common")>();
+vi.mock("@prof/common", async (importOriginal) => {
+  const module = await importOriginal<typeof import("@prof/common")>();
 
   return {
     ...module,
@@ -100,10 +100,10 @@ Object.defineProperty(window, "EXCALIDRAW_ASSET_PATH", {
 
 // mock the font fetch only, so that everything else, as font subsetting, can run inside of the (snapshot) tests
 vi.mock(
-  "./packages/excalidraw/fonts/ExcalidrawFontFace",
+  "./packages/prof/fonts/ExcalidrawFontFace",
   async (importOriginal) => {
     const mod = await importOriginal<
-      typeof import("./packages/excalidraw/fonts/ExcalidrawFontFace")
+      typeof import("./packages/prof/fonts/ExcalidrawFontFace")
     >();
     const ExcalidrawFontFaceImpl = mod.ExcalidrawFontFace;
 

@@ -1,16 +1,16 @@
 /* eslint-disable no-lone-blocks */
-import { arrayToMap } from "@excalidraw/common";
+import { arrayToMap } from "@prof/common";
 
 import {
   InvalidFractionalIndexError,
   syncInvalidIndices,
   syncMovedIndices,
   validateFractionalIndices,
-} from "@excalidraw/element";
+} from "@prof/element";
 
-import { deepCopyElement } from "@excalidraw/element";
+import { deepCopyElement } from "@prof/element";
 
-import { API } from "@excalidraw/excalidraw/tests/helpers/api";
+import { API } from "@prof/core/tests/helpers/api";
 
 import {
   generateKeyBetween,
@@ -21,7 +21,7 @@ import type {
   ElementsMap,
   ExcalidrawElement,
   FractionalIndex,
-} from "@excalidraw/element/types";
+} from "@prof/element/types";
 
 describe("fractional index format validation", () => {
   it("should reject malformed base62 order keys", () => {

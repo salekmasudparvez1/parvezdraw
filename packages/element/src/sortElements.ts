@@ -1,4 +1,4 @@
-import { arrayToMap } from "@excalidraw/common";
+import { arrayToMap } from "@prof/common";
 
 import type { ExcalidrawElement } from "./types";
 

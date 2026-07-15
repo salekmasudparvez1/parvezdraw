@@ -1,9 +1,9 @@
-import { arrayToMap, findIndex, findLastIndex } from "@excalidraw/common";
+import { arrayToMap, findIndex, findLastIndex } from "@prof/common";
 
-import { isFiniteNumber } from "@excalidraw/math";
+import { isFiniteNumber } from "@prof/math";
 
-import type { AppState } from "@excalidraw/excalidraw/types";
-import type { GlobalPoint } from "@excalidraw/math";
+import type { AppState } from "@prof/core/types";
+import type { GlobalPoint } from "@prof/math";
 
 import { isFrameLikeElement, isTextElement } from "./typeChecks";
 import { getElementsInGroup } from "./groups";

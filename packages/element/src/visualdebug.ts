@@ -6,18 +6,18 @@ import {
   type GlobalPoint,
   type LocalPoint,
   type LineSegment,
-} from "@excalidraw/math";
-import { type Bounds, isBounds } from "@excalidraw/common";
+} from "@prof/math";
+import { type Bounds, isBounds } from "@prof/common";
 import {
   getElementBounds,
   intersectElementWithLineSegment,
   isFreeDrawElement,
   isLinearElement,
   isPathALoop,
-} from "@excalidraw/element";
+} from "@prof/element";
 
-import type { ElementsMap, ExcalidrawElement } from "@excalidraw/element/types";
-import type { Curve } from "@excalidraw/math";
+import type { ElementsMap, ExcalidrawElement } from "@prof/element/types";
+import type { Curve } from "@prof/math";
 
 // The global data holder to collect the debug operations
 declare global {

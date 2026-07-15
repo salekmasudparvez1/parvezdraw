@@ -1,4 +1,4 @@
-import { pointFrom, type LocalPoint } from "@excalidraw/math";
+import { pointFrom, type LocalPoint } from "@prof/math";
 
 import {
   DEFAULT_FONT_FAMILY,
@@ -14,9 +14,9 @@ import {
   isDevEnv,
   toBrandedType,
   getLineHeight,
-} from "@excalidraw/common";
+} from "@prof/common";
 
-import type { MarkOptional } from "@excalidraw/common/utility-types";
+import type { MarkOptional } from "@prof/common/utility-types";
 
 import { bindBindingElement } from "./binding";
 import {

@@ -5,7 +5,7 @@ const { pathToFileURL } = require("url");
 const { build } = require("esbuild");
 const { sassPlugin } = require("esbuild-sass-plugin");
 
-const { parseEnvVariables } = require("../packages/excalidraw/env.cjs");
+const { parseEnvVariables } = require("../packages/prof/env.cjs");
 
 const ENV_VARS = {
   development: {
@@ -72,12 +72,12 @@ const getConfig = (outdir) => ({
   assetNames: "[dir]/[name]",
   chunkNames: "[dir]/[name]-[hash]",
   alias: {
-    "@excalidraw/utils": path.resolve(__dirname, "../packages/utils/src"),
+    "@prof/utils": path.resolve(__dirname, "../packages/utils/src"),
   },
   external: [
-    "@excalidraw/common",
-    "@excalidraw/element",
-    "@excalidraw/math",
+    "@prof/common",
+    "@prof/element",
+    "@prof/math",
     "@excalidraw/fractional-indexing",
   ],
   loader: {

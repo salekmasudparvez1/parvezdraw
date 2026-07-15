@@ -3,12 +3,12 @@
  * Uses browser's print functionality to export as PDF.
  */
 
-import { exportToSvg } from "@excalidraw/excalidraw";
+import { exportToSvg } from "@prof/core";
 
 import type {
   NonDeletedExcalidrawElement,
-} from "@excalidraw/element/types";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
+} from "@prof/element/types";
+import type { AppState, BinaryFiles } from "@prof/core/types";
 
 export const exportToPDF = async (
   elements: readonly NonDeletedExcalidrawElement[],
