@@ -1,5 +1,5 @@
 /**
- * Parvez Draw — Base Reset & Global Styles
+ * Vision Suite — Base Reset & Global Styles
  */
 
 /* ============================================
@@ -23,11 +23,11 @@ html {
 }
 
 body {
-  font-family: var(--pd-font-sans);
-  font-size: var(--pd-text-base);
-  line-height: var(--pd-leading-normal);
-  color: var(--pd-text-primary);
-  background: var(--pd-bg-canvas);
+  font-family: var(--vd-font-sans);
+  font-size: var(--vd-text-base);
+  line-height: var(--vd-leading-normal);
+  color: var(--vd-text-primary);
+  background: var(--vd-bg-canvas);
   overflow: hidden;
 }
 
@@ -70,20 +70,20 @@ ul, ol {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--pd-gray-300);
-  border-radius: var(--pd-radius-full);
+  background: var(--vd-gray-300);
+  border-radius: var(--vd-radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--pd-gray-400);
+  background: var(--vd-gray-400);
 }
 
-.pd-theme--dark ::-webkit-scrollbar-thumb {
-  background: var(--pd-gray-700);
+.vd-theme--dark ::-webkit-scrollbar-thumb {
+  background: var(--vd-gray-700);
 }
 
-.pd-theme--dark ::-webkit-scrollbar-thumb:hover {
-  background: var(--pd-gray-600);
+.vd-theme--dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--vd-gray-600);
 }
 
 /* ============================================
@@ -91,12 +91,12 @@ ul, ol {
    ============================================ */
 
 :focus-visible {
-  outline: 2px solid var(--pd-green-500);
+  outline: 2px solid var(--vd-blue-500);
   outline-offset: 2px;
 }
 
-.pd-theme--dark :focus-visible {
-  outline-color: var(--pd-green-400);
+.vd-theme--dark :focus-visible {
+  outline-color: var(--vd-blue-400);
 }
 
 /* ============================================
@@ -104,13 +104,13 @@ ul, ol {
    ============================================ */
 
 ::selection {
-  background: var(--pd-green-100);
-  color: var(--pd-green-900);
+  background: var(--vd-blue-100);
+  color: var(--vd-blue-900);
 }
 
-.pd-theme--dark ::selection {
-  background: rgba(0, 106, 78, 0.3);
-  color: var(--pd-green-100);
+.vd-theme--dark ::selection {
+  background: rgba(0, 120, 212, 0.3);
+  color: var(--vd-blue-100);
 }
 
 /* ============================================
@@ -118,15 +118,15 @@ ul, ol {
    ============================================ */
 
 /* Glass effect */
-.pd-glass {
-  background: var(--pd-glass-bg);
+.vd-glass {
+  background: var(--vd-glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--pd-glass-border);
+  border: 1px solid var(--vd-glass-border);
 }
 
 /* Visually hidden but accessible */
-.pd-sr-only {
+.vd-sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -139,22 +139,22 @@ ul, ol {
 }
 
 /* Prevent text selection on UI elements */
-.pd-no-select {
+.vd-no-select {
   user-select: none;
   -webkit-user-select: none;
 }
 
 /* Smooth transitions for interactive elements */
-.pd-transition-fast {
-  transition: all var(--pd-duration-fast) var(--pd-ease-default);
+.vd-transition-fast {
+  transition: all var(--vd-duration-fast) var(--vd-ease-default);
 }
 
-.pd-transition-normal {
-  transition: all var(--pd-duration-normal) var(--pd-ease-default);
+.vd-transition-normal {
+  transition: all var(--vd-duration-normal) var(--vd-ease-default);
 }
 
-.pd-transition-slow {
-  transition: all var(--pd-duration-slow) var(--pd-ease-default);
+.vd-transition-slow {
+  transition: all var(--vd-duration-slow) var(--vd-ease-default);
 }
 
 /* ============================================
@@ -177,7 +177,7 @@ ul, ol {
    ============================================ */
 
 @media (forced-colors: active) {
-  .pd-glass {
+  .vd-glass {
     border: 1px solid ButtonText;
   }
 

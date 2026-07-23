@@ -1,10 +1,10 @@
 /**
- * Parvez Draw Design Tokens
- * Bangladesh-inspired visual identity
+ * Vision Suite Design Tokens
+ * VS Code-inspired visual identity
  *
  * Color philosophy:
- * - Green (#006A4E) = primary identity, active states, CTAs
- * - Red (#F42A41) = danger/accent only, never decorative alongside green
+ * - Blue (#0078D4) = primary identity, active states, CTAs
+ * - Orange (#FF9500) = accent, highlights, alerts
  * - Gray scale = 80% of the interface
  * - Glass effects for panels and overlays
  */
@@ -16,360 +16,369 @@
      COLOR SYSTEM — LIGHT MODE
      ============================================ */
 
-  /* Bangladesh Green — Primary Identity */
-  --pd-green-50:  #f0faf5;
-  --pd-green-100: #d1f2e1;
-  --pd-green-200: #a3e4c3;
-  --pd-green-300: #6dd4a0;
-  --pd-green-400: #3bc47e;
-  --pd-green-500: #006a4e;
-  --pd-green-600: #005a42;
-  --pd-green-700: #004a36;
-  --pd-green-800: #003a2a;
-  --pd-green-900: #002a1e;
+  /* VS Code Blue — Primary Identity */
+  --vd-blue-50: #f0f7ff;
+  --vd-blue-100: #e0efff;
+  --vd-blue-200: #b8dbff;
+  --vd-blue-300: #7ac0ff;
+  --vd-blue-400: #3399ff;
+  --vd-blue-500: #0078D4;
+  --vd-blue-600: #005A9E;
+  --vd-blue-700: #003D7A;
+  --vd-blue-800: #002952;
+  --vd-blue-900: #001429;
 
-  /* Bangladesh Red — Danger/Accent */
-  --pd-red-50:  #fff1f3;
-  --pd-red-100: #ffe0e4;
-  --pd-red-200: #ffc6cd;
-  --pd-red-300: #ff9daa;
-  --pd-red-400: #ff6478;
-  --pd-red-500: #f42a41;
-  --pd-red-600: #d41e36;
-  --pd-red-700: #b0162c;
-  --pd-red-800: #8c1224;
-  --pd-red-900: #6b0e1c;
+  /* Orange — Accent */
+  --vd-orange-50: #fff8f0;
+  --vd-orange-100: #ffeddb;
+  --vd-orange-200: #ffd9b3;
+  --vd-orange-300: #ffc280;
+  --vd-orange-400: #ffaa4d;
+  --vd-orange-500: #FF9500;
+  --vd-orange-600: #E68600;
+  --vd-orange-700: #cc7700;
+  --vd-orange-800: #a35e00;
+  --vd-orange-900: #7a4600;
 
   /* Neutral Scale */
-  --pd-gray-50:  #fafbfc;
-  --pd-gray-100: #f4f6f8;
-  --pd-gray-200: #e8ecf0;
-  --pd-gray-300: #d1d8e0;
-  --pd-gray-400: #a0adc0;
-  --pd-gray-500: #6b7a90;
-  --pd-gray-600: #4a5568;
-  --pd-gray-700: #364152;
-  --pd-gray-800: #252d3a;
-  --pd-gray-900: #161b24;
+  --vd-gray-50: #fafbfc;
+  --vd-gray-100: #f3f4f6;
+  --vd-gray-200: #e5e7eb;
+  --vd-gray-300: #d1d5db;
+  --vd-gray-400: #9ca3af;
+  --vd-gray-500: #6b7280;
+  --vd-gray-600: #4b5563;
+  --vd-gray-700: #374151;
+  --vd-gray-800: #1f2937;
+  --vd-gray-900: #111827;
 
   /* Semantic Colors */
-  --pd-success: #006a4e;
-  --pd-success-light: #d1f2e1;
-  --pd-warning: #f59e0b;
-  --pd-warning-light: #fef3c7;
-  --pd-info: #3b82f6;
-  --pd-info-light: #dbeafe;
+  --vd-success: #10b981;
+  --vd-success-light: #d1fae5;
+  --vd-warning: #f59e0b;
+  --vd-warning-light: #fef3c7;
+  --vd-danger: #ef4444;
+  --vd-danger-light: #fee2e2;
+  --vd-info: #3b82f6;
+  --vd-info-light: #dbeafe;
 
   /* ============================================
      SURFACE SYSTEM
      ============================================ */
 
   /* Base surfaces */
-  --pd-bg-canvas: #ffffff;
-  --pd-bg-primary: #ffffff;
-  --pd-bg-secondary: var(--pd-gray-50);
-  --pd-bg-tertiary: var(--pd-gray-100);
+  --vd-bg-canvas: #ffffff;
+  --vd-bg-primary: #ffffff;
+  --vd-bg-secondary: var(--vd-gray-50);
+  --vd-bg-tertiary: var(--vd-gray-100);
 
   /* Glass surfaces */
-  --pd-glass-bg: rgba(255, 255, 255, 0.82);
-  --pd-glass-border: rgba(232, 236, 240, 0.8);
-  --pd-glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --vd-glass-bg: rgba(255, 255, 255, 0.85);
+  --vd-glass-border: rgba(229, 231, 235, 0.8);
+  --vd-glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 
   /* Panel surfaces */
-  --pd-panel-bg: var(--pd-glass-bg);
-  --pd-panel-border: var(--pd-glass-border);
-  --pd-panel-shadow: var(--pd-glass-shadow);
+  --vd-panel-bg: var(--vd-glass-bg);
+  --vd-panel-border: var(--vd-glass-border);
+  --vd-panel-shadow: var(--vd-glass-shadow);
 
   /* Elevated surfaces */
-  --pd-elevated-bg: rgba(255, 255, 255, 0.95);
-  --pd-elevated-border: var(--pd-gray-200);
-  --pd-elevated-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --vd-elevated-bg: rgba(255, 255, 255, 0.95);
+  --vd-elevated-border: var(--vd-gray-200);
+  --vd-elevated-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 
   /* ============================================
      TEXT SYSTEM
      ============================================ */
 
-  --pd-text-primary: var(--pd-gray-900);
-  --pd-text-secondary: var(--pd-gray-600);
-  --pd-text-tertiary: var(--pd-gray-500);
-  --pd-text-disabled: var(--pd-gray-400);
-  --pd-text-inverse: #ffffff;
-  --pd-text-brand: var(--pd-green-500);
-  --pd-text-danger: var(--pd-red-500);
+  --vd-text-primary: var(--vd-gray-900);
+  --vd-text-secondary: var(--vd-gray-600);
+  --vd-text-tertiary: var(--vd-gray-500);
+  --vd-text-disabled: var(--vd-gray-400);
+  --vd-text-inverse: #ffffff;
+  --vd-text-brand: var(--vd-blue-500);
+  --vd-text-danger: var(--vd-danger);
 
   /* ============================================
      BORDER SYSTEM
      ============================================ */
 
-  --pd-border-default: var(--pd-gray-200);
-  --pd-border-subtle: var(--pd-gray-100);
-  --pd-border-strong: var(--pd-gray-300);
-  --pd-border-brand: var(--pd-green-500);
-  --pd-border-danger: var(--pd-red-500);
+  --vd-border-default: var(--vd-gray-200);
+  --vd-border-subtle: var(--vd-gray-100);
+  --vd-border-strong: var(--vd-gray-300);
+  --vd-border-brand: var(--vd-blue-500);
+  --vd-border-danger: var(--vd-danger);
 
   /* ============================================
      INTERACTIVE SYSTEM
      ============================================ */
 
   /* Buttons */
-  --pd-btn-primary-bg: var(--pd-green-500);
-  --pd-btn-primary-bg-hover: var(--pd-green-600);
-  --pd-btn-primary-text: #ffffff;
+  --vd-btn-primary-bg: var(--vd-blue-500);
+  --vd-btn-primary-bg-hover: var(--vd-blue-600);
+  --vd-btn-primary-text: #ffffff;
 
-  --pd-btn-secondary-bg: transparent;
-  --pd-btn-secondary-bg-hover: var(--pd-gray-100);
-  --pd-btn-secondary-border: var(--pd-gray-300);
-  --pd-btn-secondary-text: var(--pd-text-primary);
+  --vd-btn-secondary-bg: transparent;
+  --vd-btn-secondary-bg-hover: var(--vd-gray-100);
+  --vd-btn-secondary-border: var(--vd-gray-300);
+  --vd-btn-secondary-text: var(--vd-text-primary);
 
-  --pd-btn-danger-bg: var(--pd-red-500);
-  --pd-btn-danger-bg-hover: var(--pd-red-600);
-  --pd-btn-danger-text: #ffffff;
+  --vd-btn-accent-bg: var(--vd-orange-500);
+  --vd-btn-accent-bg-hover: var(--vd-orange-600);
+  --vd-btn-accent-text: #ffffff;
 
-  --pd-btn-ghost-bg: transparent;
-  --pd-btn-ghost-bg-hover: var(--pd-gray-100);
-  --pd-btn-ghost-text: var(--pd-text-secondary);
+  --vd-btn-danger-bg: var(--vd-danger);
+  --vd-btn-danger-bg-hover: #dc2626;
+  --vd-btn-danger-text: #ffffff;
+
+  --vd-btn-ghost-bg: transparent;
+  --vd-btn-ghost-bg-hover: var(--vd-gray-100);
+  --vd-btn-ghost-text: var(--vd-text-secondary);
 
   /* Inputs */
-  --pd-input-bg: #ffffff;
-  --pd-input-bg-hover: var(--pd-gray-50);
-  --pd-input-bg-focus: #ffffff;
-  --pd-input-border: var(--pd-gray-300);
-  --pd-input-border-hover: var(--pd-gray-400);
-  --pd-input-border-focus: var(--pd-green-500);
-  --pd-input-text: var(--pd-text-primary);
-  --pd-input-placeholder: var(--pd-text-tertiary);
+  --vd-input-bg: #ffffff;
+  --vd-input-bg-hover: var(--vd-gray-50);
+  --vd-input-bg-focus: #ffffff;
+  --vd-input-border: var(--vd-gray-300);
+  --vd-input-border-hover: var(--vd-gray-400);
+  --vd-input-border-focus: var(--vd-blue-500);
+  --vd-input-text: var(--vd-text-primary);
+  --vd-input-placeholder: var(--vd-text-tertiary);
 
   /* Focus ring */
-  --pd-focus-ring: 0 0 0 2px var(--pd-green-500);
-  --pd-focus-ring-offset: 0 0 0 4px rgba(0, 106, 78, 0.15);
+  --vd-focus-ring: 0 0 0 2px var(--vd-blue-500);
+  --vd-focus-ring-offset: 0 0 0 4px rgba(0, 120, 212, 0.15);
 
   /* Hover states */
-  --pd-hover-bg: var(--pd-gray-100);
-  --pd-hover-bg-subtle: var(--pd-gray-50);
+  --vd-hover-bg: var(--vd-gray-100);
+  --vd-hover-bg-subtle: var(--vd-gray-50);
 
   /* Active states */
-  --pd-active-bg: var(--pd-green-50);
-  --pd-active-border: var(--pd-green-500);
+  --vd-active-bg: var(--vd-blue-50);
+  --vd-active-border: var(--vd-blue-500);
 
   /* ============================================
      TYPOGRAPHY SYSTEM
      ============================================ */
 
-  --pd-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --pd-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --vd-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --vd-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 
   /* Type scale */
-  --pd-text-xs: 0.6875rem;    /* 11px */
-  --pd-text-sm: 0.75rem;      /* 12px */
-  --pd-text-base: 0.8125rem;  /* 13px */
-  --pd-text-md: 0.875rem;     /* 14px */
-  --pd-text-lg: 1rem;         /* 16px */
-  --pd-text-xl: 1.125rem;     /* 18px */
-  --pd-text-2xl: 1.25rem;     /* 20px */
-  --pd-text-3xl: 1.5rem;      /* 24px */
-  --pd-text-4xl: 2rem;        /* 32px */
-  --pd-text-5xl: 2.5rem;      /* 40px */
+  --vd-text-xs: 0.6875rem;    /* 11px */
+  --vd-text-sm: 0.75rem;      /* 12px */
+  --vd-text-base: 0.8125rem;  /* 13px */
+  --vd-text-md: 0.875rem;     /* 14px */
+  --vd-text-lg: 1rem;         /* 16px */
+  --vd-text-xl: 1.125rem;     /* 18px */
+  --vd-text-2xl: 1.25rem;     /* 20px */
+  --vd-text-3xl: 1.5rem;      /* 24px */
+  --vd-text-4xl: 2rem;        /* 32px */
+  --vd-text-5xl: 2.5rem;      /* 40px */
 
   /* Line heights */
-  --pd-leading-none: 1;
-  --pd-leading-tight: 1.25;
-  --pd-leading-snug: 1.375;
-  --pd-leading-normal: 1.5;
-  --pd-leading-relaxed: 1.625;
+  --vd-leading-none: 1;
+  --vd-leading-tight: 1.25;
+  --vd-leading-snug: 1.375;
+  --vd-leading-normal: 1.5;
+  --vd-leading-relaxed: 1.625;
 
   /* Font weights */
-  --pd-weight-light: 300;
-  --pd-weight-normal: 400;
-  --pd-weight-medium: 500;
-  --pd-weight-semibold: 600;
-  --pd-weight-bold: 700;
+  --vd-weight-light: 300;
+  --vd-weight-normal: 400;
+  --vd-weight-medium: 500;
+  --vd-weight-semibold: 600;
+  --vd-weight-bold: 700;
 
   /* ============================================
      SPACING SYSTEM
      ============================================ */
 
-  --pd-space-0: 0;
-  --pd-space-px: 1px;
-  --pd-space-0_5: 0.125rem;   /* 2px */
-  --pd-space-1: 0.25rem;      /* 4px */
-  --pd-space-1_5: 0.375rem;   /* 6px */
-  --pd-space-2: 0.5rem;       /* 8px */
-  --pd-space-3: 0.75rem;      /* 12px */
-  --pd-space-4: 1rem;         /* 16px */
-  --pd-space-5: 1.25rem;      /* 20px */
-  --pd-space-6: 1.5rem;       /* 24px */
-  --pd-space-8: 2rem;         /* 32px */
-  --pd-space-10: 2.5rem;      /* 40px */
-  --pd-space-12: 3rem;        /* 48px */
-  --pd-space-16: 4rem;        /* 64px */
-  --pd-space-20: 5rem;        /* 80px */
+  --vd-space-0: 0;
+  --vd-space-px: 1px;
+  --vd-space-0_5: 0.125rem;   /* 2px */
+  --vd-space-1: 0.25rem;      /* 4px */
+  --vd-space-1_5: 0.375rem;   /* 6px */
+  --vd-space-2: 0.5rem;       /* 8px */
+  --vd-space-3: 0.75rem;      /* 12px */
+  --vd-space-4: 1rem;         /* 16px */
+  --vd-space-5: 1.25rem;      /* 20px */
+  --vd-space-6: 1.5rem;       /* 24px */
+  --vd-space-8: 2rem;         /* 32px */
+  --vd-space-10: 2.5rem;      /* 40px */
+  --vd-space-12: 3rem;        /* 48px */
+  --vd-space-16: 4rem;        /* 64px */
+  --vd-space-20: 5rem;        /* 80px */
 
   /* ============================================
      BORDER RADIUS
      ============================================ */
 
-  --pd-radius-none: 0;
-  --pd-radius-sm: 4px;
-  --pd-radius-md: 6px;
-  --pd-radius-lg: 10px;
-  --pd-radius-xl: 14px;
-  --pd-radius-2xl: 18px;
-  --pd-radius-full: 9999px;
+  --vd-radius-none: 0;
+  --vd-radius-sm: 4px;
+  --vd-radius-md: 6px;
+  --vd-radius-lg: 10px;
+  --vd-radius-xl: 14px;
+  --vd-radius-2xl: 18px;
+  --vd-radius-full: 9999px;
 
   /* ============================================
      SHADOW SYSTEM
      ============================================ */
 
-  --pd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --pd-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --pd-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --pd-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --pd-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
-  --pd-shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.06);
+  --vd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --vd-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --vd-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --vd-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --vd-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --vd-shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.06);
 
   /* Glass shadow */
-  --pd-shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --vd-shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
 
   /* ============================================
      TRANSITION SYSTEM
      ============================================ */
 
-  --pd-duration-fast: 100ms;
-  --pd-duration-normal: 150ms;
-  --pd-duration-slow: 200ms;
-  --pd-duration-slower: 300ms;
+  --vd-duration-fast: 100ms;
+  --vd-duration-normal: 150ms;
+  --vd-duration-slow: 200ms;
+  --vd-duration-slower: 300ms;
 
-  --pd-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
-  --pd-ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --pd-ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --pd-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --pd-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --vd-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --vd-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --vd-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --vd-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --vd-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ============================================
      Z-INDEX SYSTEM
      ============================================ */
 
-  --pd-z-base: 0;
-  --pd-z-dropdown: 1000;
-  --pd-z-sticky: 1020;
-  --pd-z-fixed: 1030;
-  --pd-z-modal-backdrop: 1040;
-  --pd-z-modal: 1050;
-  --pd-z-popover: 1060;
-  --pd-z-tooltip: 1070;
-  --pd-z-toast: 1080;
+  --vd-z-base: 0;
+  --vd-z-dropdown: 1000;
+  --vd-z-sticky: 1020;
+  --vd-z-fixed: 1030;
+  --vd-z-modal-backdrop: 1040;
+  --vd-z-modal: 1050;
+  --vd-z-popover: 1060;
+  --vd-z-tooltip: 1070;
+  --vd-z-toast: 1080;
 
   /* ============================================
      COMPONENT-SPECIFIC TOKENS
      ============================================ */
 
   /* Top bar */
-  --pd-topbar-height: 48px;
-  --pd-topbar-bg: var(--pd-glass-bg);
-  --pd-topbar-border: var(--pd-glass-border);
+  --vd-topbar-height: 48px;
+  --vd-topbar-bg: var(--vd-glass-bg);
+  --vd-topbar-border: var(--vd-glass-border);
 
   /* Left sidebar */
-  --pd-sidebar-width: 56px;
-  --pd-sidebar-bg: var(--pd-glass-bg);
-  --pd-sidebar-border: var(--pd-glass-border);
+  --vd-sidebar-width: 56px;
+  --vd-sidebar-bg: var(--vd-glass-bg);
+  --vd-sidebar-border: var(--vd-glass-border);
 
   /* Right panel */
-  --pd-panel-width: 280px;
+  --vd-panel-width: 280px;
 
   /* Bottom bar */
-  --pd-bottombar-height: 36px;
-  --pd-bottombar-bg: var(--pd-glass-bg);
-  --pd-bottombar-border: var(--pd-glass-border);
+  --vd-bottombar-height: 36px;
+  --vd-bottombar-bg: var(--vd-glass-bg);
+  --vd-bottombar-border: var(--vd-glass-border);
 
   /* Toolbar (floating) */
-  --pd-toolbar-bg: var(--pd-elevated-bg);
-  --pd-toolbar-border: var(--pd-elevated-border);
-  --pd-toolbar-shadow: var(--pd-shadow-xl);
-  --pd-toolbar-radius: var(--pd-radius-xl);
+  --vd-toolbar-bg: var(--vd-elevated-bg);
+  --vd-toolbar-border: var(--vd-elevated-border);
+  --vd-toolbar-shadow: var(--vd-shadow-xl);
+  --vd-toolbar-radius: var(--vd-radius-xl);
 
   /* Context menu */
-  --pd-menu-bg: var(--pd-elevated-bg);
-  --pd-menu-border: var(--pd-elevated-border);
-  --pd-menu-shadow: var(--pd-shadow-xl);
-  --pd-menu-radius: var(--pd-radius-lg);
-  --pd-menu-item-radius: var(--pd-radius-md);
-  --pd-menu-item-hover: var(--pd-hover-bg);
-  --pd-menu-item-active: var(--pd-active-bg);
+  --vd-menu-bg: var(--vd-elevated-bg);
+  --vd-menu-border: var(--vd-elevated-border);
+  --vd-menu-shadow: var(--vd-shadow-xl);
+  --vd-menu-radius: var(--vd-radius-lg);
+  --vd-menu-item-radius: var(--vd-radius-md);
+  --vd-menu-item-hover: var(--vd-hover-bg);
+  --vd-menu-item-active: var(--vd-active-bg);
 
   /* Dialog / Modal */
-  --pd-dialog-bg: var(--pd-elevated-bg);
-  --pd-dialog-border: var(--pd-elevated-border);
-  --pd-dialog-shadow: var(--pd-shadow-2xl);
-  --pd-dialog-radius: var(--pd-radius-2xl);
+  --vd-dialog-bg: var(--vd-elevated-bg);
+  --vd-dialog-border: var(--vd-elevated-border);
+  --vd-dialog-shadow: var(--vd-shadow-2xl);
+  --vd-dialog-radius: var(--vd-radius-2xl);
 }
 
 /* ============================================
    DARK MODE TOKENS
    ============================================ */
 
-.pd-theme--dark,
+.vd-theme--dark,
 [data-theme="dark"] {
-  /* Dark surfaces */
-  --pd-bg-canvas: #0d1117;
-  --pd-bg-primary: #161b22;
-  --pd-bg-secondary: #1c2333;
-  --pd-bg-tertiary: #242d3d;
+  /* Dark surfaces - VS Code inspired */
+  --vd-bg-canvas: #1e1e1e;
+  --vd-bg-primary: #252526;
+  --vd-bg-secondary: #2d2d2d;
+  --vd-bg-tertiary: #333333;
 
   /* Dark glass */
-  --pd-glass-bg: rgba(22, 27, 34, 0.82);
-  --pd-glass-border: rgba(45, 55, 72, 0.6);
-  --pd-glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --vd-glass-bg: rgba(37, 37, 38, 0.85);
+  --vd-glass-border: rgba(60, 60, 60, 0.6);
+  --vd-glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
 
   /* Dark elevated */
-  --pd-elevated-bg: rgba(28, 35, 51, 0.95);
-  --pd-elevated-border: rgba(45, 55, 72, 0.8);
-  --pd-elevated-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --vd-elevated-bg: rgba(45, 45, 45, 0.95);
+  --vd-elevated-border: rgba(60, 60, 60, 0.8);
+  --vd-elevated-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  /* Dark text */
-  --pd-text-primary: #e6edf3;
-  --pd-text-secondary: #8b949e;
-  --pd-text-tertiary: #6e7681;
-  --pd-text-disabled: #484f58;
+  /* Dark text - VS Code colors */
+  --vd-text-primary: #cccccc;
+  --vd-text-secondary: #858585;
+  --vd-text-tertiary: #6a6a6a;
+  --vd-text-disabled: #5a5a5a;
 
   /* Dark borders */
-  --pd-border-default: rgba(45, 55, 72, 0.8);
-  --pd-border-subtle: rgba(45, 55, 72, 0.4);
-  --pd-border-strong: rgba(45, 55, 72, 1);
+  --vd-border-default: rgba(60, 60, 60, 0.8);
+  --vd-border-subtle: rgba(60, 60, 60, 0.4);
+  --vd-border-strong: rgba(60, 60, 60, 1);
 
-  /* Dark interactive */
-  --pd-btn-primary-bg: var(--pd-green-400);
-  --pd-btn-primary-bg-hover: var(--pd-green-300);
-  --pd-btn-primary-text: #0d1117;
+  /* Dark interactive - VS Code blue/orange */
+  --vd-btn-primary-bg: var(--vd-blue-400);
+  --vd-btn-primary-bg-hover: var(--vd-blue-300);
+  --vd-btn-primary-text: #1e1e1e;
 
-  --pd-btn-secondary-bg-hover: rgba(45, 55, 72, 0.5);
-  --pd-btn-secondary-border: rgba(45, 55, 72, 0.8);
+  --vd-btn-secondary-bg-hover: rgba(60, 60, 60, 0.5);
+  --vd-btn-secondary-border: rgba(60, 60, 60, 0.8);
 
-  --pd-btn-ghost-bg-hover: rgba(45, 55, 72, 0.5);
+  --vd-btn-accent-bg: var(--vd-orange-500);
+  --vd-btn-accent-bg-hover: var(--vd-orange-400);
 
-  --pd-input-bg: #0d1117;
-  --pd-input-bg-hover: #161b22;
-  --pd-input-bg-focus: #161b22;
-  --pd-input-border: rgba(45, 55, 72, 0.8);
-  --pd-input-border-hover: rgba(45, 55, 72, 1);
-  --pd-input-border-focus: var(--pd-green-400);
-  --pd-input-text: #e6edf3;
-  --pd-input-placeholder: #6e7681;
+  --vd-btn-ghost-bg-hover: rgba(60, 60, 60, 0.5);
 
-  --pd-focus-ring: 0 0 0 2px var(--pd-green-400);
-  --pd-focus-ring-offset: 0 0 0 4px rgba(77, 180, 120, 0.15);
+  --vd-input-bg: #1e1e1e;
+  --vd-input-bg-hover: #252526;
+  --vd-input-bg-focus: #252526;
+  --vd-input-border: rgba(60, 60, 60, 0.8);
+  --vd-input-border-hover: rgba(60, 60, 60, 1);
+  --vd-input-border-focus: var(--vd-blue-400);
+  --vd-input-text: #cccccc;
+  --vd-input-placeholder: #6a6a6a;
 
-  --pd-hover-bg: rgba(45, 55, 72, 0.5);
-  --pd-hover-bg-subtle: rgba(45, 55, 72, 0.3);
+  --vd-focus-ring: 0 0 0 2px var(--vd-blue-400);
+  --vd-focus-ring-offset: 0 0 0 4px rgba(51, 153, 255, 0.15);
 
-  --pd-active-bg: rgba(0, 106, 78, 0.15);
-  --pd-active-border: var(--pd-green-400);
+  --vd-hover-bg: rgba(60, 60, 60, 0.5);
+  --vd-hover-bg-subtle: rgba(60, 60, 60, 0.3);
+
+  --vd-active-bg: rgba(0, 120, 212, 0.15);
+  --vd-active-border: var(--vd-blue-400);
 
   /* Dark shadows */
-  --pd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --pd-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
-  --pd-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
-  --pd-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.2);
-  --pd-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
-  --pd-shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.25);
-  --pd-shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+  --vd-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --vd-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --vd-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --vd-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --vd-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.25);
+  --vd-shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --vd-shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
 }

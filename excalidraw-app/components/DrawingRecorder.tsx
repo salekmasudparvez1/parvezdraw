@@ -1,6 +1,6 @@
 /**
- * Drawing Recorder for Parvez Draw
- * Records canvas time-lapse with optional voice narration.
+ * Drawing Recorder for Vision Suite
+ * Records canvas at 60fps with clear audio narration.
  * Saves recordings locally via IndexedDB.
  */
 
@@ -59,15 +59,21 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
     if (!canvas) return;
 
     try {
-      // Get canvas video stream
-      const videoStream = canvas.captureStream(30);
+      // Get canvas video stream at 60fps for smooth recording
+      const videoStream = canvas.captureStream(60);
 
-      // Get audio stream if enabled
+      // Get high-quality audio stream for clear narration
       let combinedStream: MediaStream;
       if (audioEnabled) {
         try {
           const audioStream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true,
+              sampleRate: 48000,
+              channelCount: 2,
+            },
           });
           audioStreamRef.current = audioStream;
           combinedStream = new MediaStream([
@@ -82,7 +88,7 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
         combinedStream = videoStream;
       }
 
-      // Determine supported mime type
+      // Determine supported mime type with VP9 preference for best quality
       const mimeTypes = [
         "video/webm;codecs=vp9,opus",
         "video/webm;codecs=vp8,opus",
@@ -99,9 +105,11 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
         }
       }
 
+      // High bitrate for 60fps smooth recording (8Mbps video + clear audio)
       const recorder = new MediaRecorder(combinedStream, {
         mimeType: mimeType || undefined,
-        videoBitsPerSecond: 2500000,
+        videoBitsPerSecond: 8000000, // 8Mbps for 60fps quality
+        audioBitsPerSecond: 256000,   // 256kbps for clear audio
       });
 
       chunksRef.current = [];
@@ -139,7 +147,7 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `parvez-draw-recording-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.webm`;
+        a.download = `vision-suite-recording-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.webm`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -152,7 +160,7 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
         }
       };
 
-      recorder.start(1000); // Collect data every second
+      recorder.start(500); // Collect data every 500ms for smoother recording
       mediaRecorderRef.current = recorder;
       startTimeRef.current = Date.now();
       setIsRecording(true);
@@ -217,74 +225,75 @@ export const DrawingRecorder: React.FC<DrawingRecorderProps> = ({
 
   return (
     <>
-      {/* Record button */}
+      {/* Record button with mic indicator */}
       <button
-        className={`pd-btn pd-btn--icon pd-btn--ghost ${isRecording ? "pd-recording-active" : ""}`}
+        className={`vd-btn vd-btn--icon vd-btn--ghost ${isRecording ? "vd-recording-active" : ""}`}
         onClick={isRecording ? stopRecording : startRecording}
         title={isRecording ? "Stop recording" : "Start recording"}
         aria-label={isRecording ? "Stop recording" : "Start recording"}
       >
         {isRecording ? (
-          <span className="pd-recording-indicator">
-            <span className="pd-recording-dot" />
-            <span className="pd-recording-time">{formatTime(elapsedSeconds)}</span>
+          <span className="vd-recording-indicator">
+            <span className="vd-recording-dot" />
+            <Mic size={14} style={{ marginRight: 2 }} />
+            <span className="vd-recording-time">{formatTime(elapsedSeconds)}</span>
           </span>
         ) : (
-          <Circle size={16} fill="#f42a41" color="#f42a41" />
+          <Mic size={16} />
         )}
       </button>
 
       {/* Audio toggle */}
       {!isRecording && (
         <button
-          className={`pd-btn pd-btn--icon pd-btn--ghost ${!audioEnabled ? "pd-recording-muted" : ""}`}
+          className={`vd-btn vd-btn--icon vd-btn--ghost ${!audioEnabled ? "vd-recording-muted" : ""}`}
           onClick={() => setAudioEnabled(!audioEnabled)}
-          title={audioEnabled ? "Disable microphone" : "Enable microphone"}
-          aria-label={audioEnabled ? "Disable microphone" : "Enable microphone"}
+          title={audioEnabled ? "Microphone on" : "Microphone off"}
+          aria-label={audioEnabled ? "Microphone on" : "Microphone off"}
         >
-          {audioEnabled ? <Mic size={16} /> : <MicOff size={16} />}
+          {audioEnabled ? <Mic size={15} /> : <MicOff size={15} />}
         </button>
       )}
 
       {/* Recordings panel */}
       {showPanel && (
-        <div className="pd-recording-panel">
-          <div className="pd-recording-panel__header">
-            <span className="pd-recording-panel__title">Recordings</span>
+        <div className="vd-recording-panel">
+          <div className="vd-recording-panel__header">
+            <span className="vd-recording-panel__title">Recordings</span>
             <button
-              className="pd-btn pd-btn--icon pd-btn--ghost"
+              className="vd-btn vd-btn--icon vd-btn--ghost"
               onClick={() => setShowPanel(false)}
             >
               ×
             </button>
           </div>
-          <div className="pd-recording-panel__list">
+          <div className="vd-recording-panel__list">
             {recordings.length === 0 ? (
-              <div className="pd-recording-panel__empty">
+              <div className="vd-recording-panel__empty">
                 No recordings yet
               </div>
             ) : (
               recordings.map((rec) => (
-                <div key={rec.id} className="pd-recording-panel__item">
-                  <div className="pd-recording-panel__info">
-                    <span className="pd-recording-panel__duration">
+                <div key={rec.id} className="vd-recording-panel__item">
+                  <div className="vd-recording-panel__info">
+                    <span className="vd-recording-panel__duration">
                       {formatTime(rec.duration)}
                     </span>
-                    <span className="pd-recording-panel__date">
+                    <span className="vd-recording-panel__date">
                       {new Date(rec.timestamp).toLocaleDateString()}
                     </span>
                     {rec.hasAudio && <Mic size={10} />}
                   </div>
-                  <div className="pd-recording-panel__actions">
+                  <div className="vd-recording-panel__actions">
                     <button
-                      className="pd-btn pd-btn--icon pd-btn--ghost pd-btn--sm"
+                      className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm"
                       onClick={() => playRecording(rec.id)}
                       title="Play"
                     >
                       <Play size={12} />
                     </button>
                     <button
-                      className="pd-btn pd-btn--icon pd-btn--ghost pd-btn--sm"
+                      className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm"
                       onClick={() => deleteRecording(rec.id)}
                       title="Delete"
                     >

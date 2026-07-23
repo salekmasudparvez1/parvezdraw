@@ -101,6 +101,9 @@ import { exportToPNG, exportToSVG, exportToPDF, exportToJSON } from "./data/expo
 import { RecentFilesPanel } from "./components/RecentFilesPanel";
 import { useAutoSave } from "./hooks/useAutoSave";
 import { RecentFiles } from "./data/RecentFiles";
+import { CanvasSearch } from "./components/CanvasSearch";
+import { ColorPalettePanel } from "./components/ColorPalettePanel";
+import { SidebarEyeButton } from "./components/LeftSidebar";
 
 import "./index.scss";
 
@@ -136,6 +139,16 @@ const ExcalidrawWrapper = () => {
   const [recentFilesOpen, setRecentFilesOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTool, setActiveTool] = useState("selection");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [colorPaletteOpen, setColorPaletteOpen] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState("Untitled");
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [recordingTime, setRecordingTime] = useState("00:00");
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordingChunksRef = useRef<Blob[]>([]);
+  const recordingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const recordingStartTimeRef = useRef<number>(0);
 
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
 
@@ -202,6 +215,77 @@ const ExcalidrawWrapper = () => {
   const handleRedo = useCallback(() => {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true, shiftKey: true }));
   }, []);
+
+  // Recording functions
+  const formatRecordingTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const toggleRecording = useCallback(async () => {
+    if (isRecording) {
+      // Stop recording
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
+      }
+      if (recordingTimerRef.current) {
+        clearInterval(recordingTimerRef.current);
+        recordingTimerRef.current = null;
+      }
+      setIsRecording(false);
+      setRecordingTime("00:00");
+    } else {
+      // Start recording
+      if (!canvasRef) return;
+      try {
+        const videoStream = canvasRef.captureStream(60);
+        let combinedStream: MediaStream;
+        if (audioEnabled) {
+          try {
+            const audioStream = await navigator.mediaDevices.getUserMedia({
+              audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 48000 },
+            });
+            combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()]);
+          } catch {
+            combinedStream = videoStream;
+          }
+        } else {
+          combinedStream = videoStream;
+        }
+        const mimeTypes = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+        let mimeType = "";
+        for (const type of mimeTypes) {
+          if (MediaRecorder.isTypeSupported(type)) { mimeType = type; break; }
+        }
+        const recorder = new MediaRecorder(combinedStream, {
+          mimeType: mimeType || undefined,
+          videoBitsPerSecond: 8000000,
+          audioBitsPerSecond: 256000,
+        });
+        recordingChunksRef.current = [];
+        recorder.ondataavailable = (e) => { if (e.data.size > 0) recordingChunksRef.current.push(e.data); };
+        recorder.onstop = () => {
+          const blob = new Blob(recordingChunksRef.current, { type: mimeType || "video/webm" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `vision-suite-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.webm`;
+          a.click();
+          URL.revokeObjectURL(url);
+        };
+        recorder.start(500);
+        mediaRecorderRef.current = recorder;
+        recordingStartTimeRef.current = Date.now();
+        setIsRecording(true);
+        recordingTimerRef.current = setInterval(() => {
+          setRecordingTime(formatRecordingTime(Math.floor((Date.now() - recordingStartTimeRef.current) / 1000)));
+        }, 1000);
+      } catch (err) {
+        console.error("Recording failed:", err);
+      }
+    }
+  }, [isRecording, canvasRef, audioEnabled]);
 
   // Get app state for UI
   const appState = excalidrawAPI?.getAppState();
@@ -533,7 +617,7 @@ const ExcalidrawWrapper = () => {
       style={{ height: "100%" }}
       className={clsx("excalidraw-app", "pd-app")}
     >
-      {/* Parvez Draw Top Navigation Bar */}
+      {/* Vision Suite Top Navigation Bar */}
       <TopBar
         theme={appTheme}
         onThemeToggle={() => setAppTheme(appTheme === "dark" ? "light" : "dark")}
@@ -573,38 +657,97 @@ const ExcalidrawWrapper = () => {
             exportToJSON({ elements, appState, files });
           }
         }}
-        onSettingsOpen={() => {
-          // Settings will be handled by a dedicated panel in the future
-        }}
-        onSearchOpen={() => {
-          // Search will be handled by a dedicated panel in the future
-        }}
-        onKeyboardShortcuts={() => {
-          // Keyboard shortcuts will be shown in a dialog
-        }}
+        onSettingsOpen={() => {}}
+        onSearchOpen={() => setSearchOpen(true)}
+        onKeyboardShortcuts={() => {}}
         sidebarOpen={sidebarOpen}
         onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
-        workspaceName="Untitled"
+        workspaceName={workspaceName}
+        onWorkspaceNameChange={setWorkspaceName}
         isSaved={true}
         canvasRef={{ current: canvasRef }}
+        gridEnabled={gridEnabled}
+        onGridToggle={() => {
+          if (excalidrawAPI) {
+            const current = excalidrawAPI.getAppState().gridModeEnabled;
+            excalidrawAPI.updateScene({ appState: { gridModeEnabled: !current } });
+          }
+        }}
+        snapEnabled={snapEnabled}
+        onSnapToggle={() => {}}
+        onNewFile={() => {
+          if (excalidrawAPI) {
+            excalidrawAPI.updateScene({ elements: [], appState: {} });
+            setWorkspaceName("Untitled");
+          }
+        }}
+        onOpenFile={() => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = ".vs,.parvezdraw,.excalidraw";
+          input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                try {
+                  const data = JSON.parse(ev.target?.result as string);
+                  if (excalidrawAPI && data.elements) {
+                    excalidrawAPI.updateScene({ elements: data.elements });
+                    setWorkspaceName(file.name.replace(/\.(vs|parvezdraw|excalidraw)$/, ""));
+                  }
+                } catch { console.error("Failed to open file"); }
+              };
+              reader.readAsText(file);
+            }
+          };
+          input.click();
+        }}
+        onSaveFile={() => {
+          if (excalidrawAPI) {
+            const elements = excalidrawAPI.getSceneElements();
+            const data = { type: "vision-suite", version: 1, elements };
+            const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${workspaceName}.vs`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        }}
+        isRecording={isRecording}
+        onToggleRecording={toggleRecording}
+        audioEnabled={audioEnabled}
+        onToggleAudio={() => setAudioEnabled(!audioEnabled)}
+        recordingTime={recordingTime}
       />
 
-      {/* Parvez Draw Left Sidebar */}
+      {/* Vision Suite Left Sidebar */}
       <LeftSidebar
         activeTool={activeTool}
         onToolSelect={handleToolSelect}
+        onColorPaletteOpen={() => setColorPaletteOpen(true)}
+        isSidebarVisible={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+      />
+
+      {/* Floating eye button when sidebar hidden */}
+      <SidebarEyeButton
+        onClick={() => setSidebarOpen(true)}
+        isVisible={sidebarOpen}
       />
 
       {/* Excalidraw Canvas — positioned to account for new UI */}
       <div
         ref={canvasContainerRef}
-        className="pd-canvas-container"
+        className="vd-canvas-container"
         style={{
           position: "fixed",
-          top: "var(--pd-topbar-height)",
-          left: sidebarOpen ? "var(--pd-sidebar-width)" : 0,
+          top: "var(--vd-topbar-height)",
+          left: sidebarOpen ? "var(--vd-sidebar-width)" : 0,
           right: 0,
-          bottom: "var(--pd-bottombar-height)",
+          bottom: "var(--vd-bottombar-height)",
           transition: "left 200ms ease",
         }}
       >
@@ -621,23 +764,16 @@ const ExcalidrawWrapper = () => {
           onThemeChange={setAppTheme}
           UIOptions={{
             canvasActions: {
-              toggleTheme: true,
-              export: {
-                renderCustomUI: excalidrawAPI
-                  ? (elements, appState, files) => {
-                      return (
-                        <button
-                          onClick={() =>
-                            exportToPDF({ elements, appState, files })
-                          }
-                          className="pd-btn pd-btn--primary"
-                        >
-                          Export as PDF
-                        </button>
-                      );
-                    }
-                  : undefined,
-              },
+              toggleTheme: false,
+              export: false,
+              saveToActiveFile: false,
+              loadScene: false,
+              changeViewBackgroundColor: false,
+              clearCanvas: false,
+              saveAsImage: false,
+            },
+            tools: {
+              image: false,
             },
           }}
           onLinkOpen={(element, event) => {
@@ -704,11 +840,10 @@ const ExcalidrawWrapper = () => {
         </Excalidraw>
       </div>
 
-      {/* Parvez Draw Bottom Bar */}
+      {/* Vision Suite Bottom Bar */}
       <BottomBar
         zoom={zoom}
         onZoomIn={() => {
-          // Zoom in by updating the zoom value
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
             const newZoom = Math.min(currentZoom * 1.2, 5) as import("@prof/core/types").NormalizedZoomValue;
@@ -718,7 +853,6 @@ const ExcalidrawWrapper = () => {
           }
         }}
         onZoomOut={() => {
-          // Zoom out by updating the zoom value
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
             const newZoom = Math.max(currentZoom / 1.2, 0.1) as import("@prof/core/types").NormalizedZoomValue;
@@ -728,7 +862,6 @@ const ExcalidrawWrapper = () => {
           }
         }}
         onZoomReset={() => {
-          // Reset zoom to 100%
           if (excalidrawAPI) {
             excalidrawAPI.updateScene({
               appState: { zoom: { value: 1 as import("@prof/core/types").NormalizedZoomValue } },
@@ -736,11 +869,9 @@ const ExcalidrawWrapper = () => {
           }
         }}
         onZoomToFit={() => {
-          // Scroll to fit content - use setViewport with fit
           if (excalidrawAPI) {
             const elements = excalidrawAPI.getSceneElements();
             if (elements.length > 0) {
-              // Use setViewport with elements as target and fit: "scale-down"
               excalidrawAPI.setViewport({
                 target: elements,
                 fit: "scale-down",
@@ -749,26 +880,12 @@ const ExcalidrawWrapper = () => {
             }
           }
         }}
-        gridEnabled={gridEnabled}
-        onGridToggle={() => {
-          if (excalidrawAPI) {
-            const current = excalidrawAPI.getAppState().gridModeEnabled;
-            excalidrawAPI.updateScene({
-              appState: { gridModeEnabled: !current },
-            });
-          }
-        }}
-        snapEnabled={snapEnabled}
-        onSnapToggle={() => {
-          // Toggle snap - would need to access internal state
-        }}
         selectedCount={appState?.selectedElementIds
           ? Object.keys(appState.selectedElementIds).length
           : 0}
         elementCount={
           excalidrawAPI?.getSceneElementsIncludingDeleted()?.length ?? 0
         }
-        isPerformanceMode={appState?.isResizing ?? false}
       />
 
       <RecentFilesPanel
@@ -777,6 +894,63 @@ const ExcalidrawWrapper = () => {
         onOpenFile={(file) => {
           setRecentFilesOpen(false);
         }}
+      />
+
+      {/* Vision Suite Search Panel */}
+      <CanvasSearch
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        onSelectElement={(elementId) => {
+          // Select the element in Excalidraw
+          if (excalidrawAPI) {
+            excalidrawAPI.updateScene({
+              appState: {
+                selectedElementIds: { [elementId]: true },
+              },
+            });
+            // Scroll to the element
+            const elements = excalidrawAPI.getSceneElements();
+            const element = elements.find((el) => el.id === elementId);
+            if (element) {
+              excalidrawAPI.setViewport({
+                target: [element],
+                fit: "scale-down",
+                animation: true,
+              });
+            }
+          }
+        }}
+        elements={(excalidrawAPI?.getSceneElements() || []) as any[]}
+      />
+
+      {/* Vision Suite Color Palette Panel */}
+      <ColorPalettePanel
+        isOpen={colorPaletteOpen}
+        onClose={() => setColorPaletteOpen(false)}
+        onSelectColor={(color) => {
+          // Apply color to selected elements
+          if (excalidrawAPI) {
+            const appState = excalidrawAPI.getAppState();
+            const selectedIds = appState.selectedElementIds;
+            const elements = excalidrawAPI.getSceneElements();
+
+            if (Object.keys(selectedIds).length > 0) {
+              const updatedElements = elements.map((el) => {
+                if (selectedIds[el.id]) {
+                  return {
+                    ...el,
+                    strokeColor: color,
+                  };
+                }
+                return el;
+              });
+              excalidrawAPI.updateScene({
+                elements: updatedElements,
+              });
+            }
+          }
+        }}
+        currentColor="#0078D4"
       />
     </div>
   );

@@ -2,16 +2,16 @@ import { useI18n } from "@prof/core/i18n";
 import { WelcomeScreen } from "@prof/core/index";
 import React from "react";
 
-const ParvezLogo = () => (
+const VisionSuiteLogo = () => (
   <div style={{ marginBottom: "1rem" }}>
     <img
-      src="/parvez.png"
-      alt="Parvez Draw"
+      src="/logo.svg"
+      alt="Vision Suite"
       style={{
         width: "80px",
         height: "80px",
         borderRadius: "16px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        boxShadow: "0 4px 12px rgba(0,120,212,0.25)",
       }}
     />
   </div>
@@ -31,10 +31,10 @@ export const AppWelcomeScreen: React.FC<{
       <WelcomeScreen.Hints.ToolbarHint />
       <WelcomeScreen.Hints.HelpHint />
       <WelcomeScreen.Center>
-        <ParvezLogo />
+        <VisionSuiteLogo />
         <WelcomeScreen.Center.Heading>
-          <span style={{ fontSize: "2.25rem", fontWeight: 600 }}>
-            Parvez Draw
+          <span style={{ fontSize: "2.25rem", fontWeight: 600, color: "#0078D4" }}>
+            Vision Suite
           </span>
           <br />
           <span style={{ fontSize: "1.1rem", fontWeight: 400, opacity: 0.8 }}>
