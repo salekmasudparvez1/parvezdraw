@@ -753,7 +753,7 @@
 }
 
 /* ============================================
-   LEFT SIDEBAR — Vision Suite
+   LEFT SIDEBAR — Vision Suite (Photoshop-style)
    ============================================ */
 
 .vd-sidebar {
@@ -794,8 +794,7 @@
 }
 
 .vd-sidebar__bottom {
-  margin-top: auto;
-  padding-top: 8px;
+  padding: 8px 0;
   border-top: 1px solid var(--vd-border-subtle);
 }
 
@@ -842,56 +841,20 @@
   box-shadow: var(--vd-shadow-lg);
 }
 
-/* Color palette section */
-.vd-sidebar__palette-section {
-  width: 100%;
-  padding: 0 4px;
+/* Color button - Photoshop-style with color dot */
+.vd-tool-btn--color {
+  position: relative;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.vd-sidebar__section-header {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  width: 100%;
-  padding: 4px 6px;
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--vd-text-tertiary);
-  border-radius: var(--vd-radius-sm);
-  cursor: pointer;
-  transition: all var(--vd-duration-fast) var(--vd-ease-default);
-}
-
-.vd-sidebar__section-header:hover {
-  background: var(--vd-hover-bg);
-  color: var(--vd-text-secondary);
-}
-
-.vd-sidebar__palette {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-  padding: 4px;
-  margin-top: 2px;
-}
-
-.vd-sidebar__palette-swatch {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.1s ease;
-}
-
-.vd-sidebar__palette-swatch:hover {
-  transform: scale(1.25);
-  z-index: 1;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-}
-
-.vd-theme--dark .vd-sidebar__palette-swatch {
-  border-color: rgba(255, 255, 255, 0.08);
+.vd-tool-btn__color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--vd-blue-500);
+  border: 2px solid var(--vd-border-default);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 /* ============================================

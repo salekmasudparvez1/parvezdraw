@@ -2,10 +2,10 @@
  * Vision Suite — Left Sidebar
  *
  * Eye button hides ENTIRE sidebar for more canvas space.
- * Photoshop-style clean tool panel.
+ * ONE color icon that opens popup (Photoshop-style).
  */
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Pen,
   Square,
@@ -21,13 +21,10 @@ import {
   Frame,
   Target,
   Lasso,
-  Eye,
   EyeOff,
   Palette,
-  ChevronDown,
-  ChevronRight,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface ToolItem {
   id: string;
@@ -61,17 +58,6 @@ const TOOLS: ToolItem[] = [
   { id: "lasso", icon: <Lasso size={18} />, label: "Lasso", shortcut: "S" },
 ];
 
-const PALETTE_COLORS = [
-  "#0078D4", "#005A9E", "#003D7A",
-  "#FF9500", "#E68600", "#CC7700",
-  "#10b981", "#059669", "#047857",
-  "#ef4444", "#dc2626", "#b91c1c",
-  "#8b5cf6", "#7c3aed", "#6d28d9",
-  "#ffffff", "#d1d5db", "#6b7280",
-  "#374151", "#1f2937", "#111827",
-  "#1e1e1e", "#2d2d2d", "#3c3c3c",
-];
-
 const SidebarToolButton: React.FC<{
   tool: ToolItem;
   isActive: boolean;
@@ -99,8 +85,6 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
   isSidebarVisible,
   onToggleSidebar,
 }) => {
-  const [showPalette, setShowPalette] = useState(true);
-
   if (!isSidebarVisible) return null;
 
   return (
@@ -118,7 +102,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
         <button
           className="vd-eye-toggle"
           onClick={onToggleSidebar}
-          title="Hide sidebar (click eye to show again)"
+          title="Hide sidebar"
         >
           <EyeOff size={18} />
         </button>
@@ -136,47 +120,18 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
         ))}
       </div>
 
-      {/* Color Palette Section */}
-      <div className="vd-sidebar__section vd-sidebar__palette-section">
-        <button
-          className="vd-sidebar__section-header"
-          onClick={() => setShowPalette(!showPalette)}
-        >
-          <Palette size={14} />
-          {showPalette ? <ChevronDown size={10} /> : <ChevronRight size={10} />}
-        </button>
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
 
-        <AnimatePresence>
-          {showPalette && (
-            <motion.div
-              className="vd-sidebar__palette"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              {PALETTE_COLORS.map((color) => (
-                <button
-                  key={color}
-                  className="vd-sidebar__palette-swatch"
-                  style={{ background: color }}
-                  onClick={() => onColorPaletteOpen?.()}
-                  title={color}
-                />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Bottom actions */}
+      {/* ONE Color icon - opens popup */}
       <div className="vd-sidebar__section vd-sidebar__bottom">
         <button
-          className="vd-tool-btn"
+          className="vd-tool-btn vd-tool-btn--color"
           onClick={onColorPaletteOpen}
-          title="All Colors"
+          title="Color Palette"
         >
-          <Palette size={18} />
+          <div className="vd-tool-btn__color-dot" />
+          <Palette size={16} />
         </button>
       </div>
     </motion.nav>
@@ -201,7 +156,10 @@ export const SidebarEyeButton: React.FC<{
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <Eye size={18} />
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
     </motion.button>
   );
 };
