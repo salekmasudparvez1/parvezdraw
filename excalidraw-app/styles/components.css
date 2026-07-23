@@ -1547,7 +1547,7 @@
 .vd-color-palette {
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: calc(var(--vd-sidebar-width) + 50%);
   transform: translate(-50%, -50%);
   width: 320px;
   max-height: 70vh;
@@ -1593,11 +1593,11 @@
 .vd-color-palette__body {
   padding: var(--vd-space-3) var(--vd-space-4);
   overflow-y: auto;
-  max-height: calc(80vh - 50px);
+  max-height: calc(70vh - 50px);
 }
 
 .vd-color-palette__section {
-  margin-bottom: var(--vd-space-4);
+  margin-bottom: var(--vd-space-3);
 }
 
 .vd-color-palette__section:last-child {
