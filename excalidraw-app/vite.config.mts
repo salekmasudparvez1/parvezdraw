@@ -89,6 +89,34 @@ export default defineConfig(({ mode }) => {
             "../packages/laser-pointer/src/index.ts",
           ),
         },
+        {
+          find: /^@excalidraw\/fractional-indexing$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/fractional-indexing/src/index.ts",
+          ),
+        },
+        {
+          find: /^@excalidraw\/fractional-indexing\/(.*?)/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/fractional-indexing/src/$1",
+          ),
+        },
+        {
+          find: /^@excalidraw\/laser-pointer$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/laser-pointer/src/index.ts",
+          ),
+        },
+        {
+          find: /^@excalidraw\/laser-pointer\/(.*?)/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/laser-pointer/src/$1",
+          ),
+        },
       ],
     },
     build: {

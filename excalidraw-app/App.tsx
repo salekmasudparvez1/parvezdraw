@@ -31,10 +31,7 @@ import { t } from "@prof/core/i18n";
 
 import { GithubIcon } from "@prof/core/components/icons";
 import { newElementWith } from "@prof/element";
-import {
-  restoreAppState,
-  restoreElements,
-} from "@prof/core/data/restore";
+import { restoreAppState, restoreElements } from "@prof/core/data/restore";
 import { isInitializedImageElement } from "@prof/element";
 import clsx from "clsx";
 import {
@@ -60,12 +57,7 @@ import type { ResolutionType } from "@prof/common/utility-types";
 import type { ResolvablePromise } from "@prof/common/utils";
 
 import CustomStats from "./CustomStats";
-import {
-  Provider,
-  useAtom,
-  useAtomValue,
-  appJotaiStore,
-} from "./app-jotai";
+import { Provider, useAtom, useAtomValue, appJotaiStore } from "./app-jotai";
 import { STORAGE_KEYS, SYNC_BROWSER_TABS_TIMEOUT } from "./app_constants";
 import { AppFooter } from "./components/AppFooter";
 import { AppMainMenu } from "./components/AppMainMenu";
@@ -74,13 +66,9 @@ import { TopErrorBoundary } from "./components/TopErrorBoundary";
 import { TopBar } from "./components/TopBar";
 import { LeftSidebar } from "./components/LeftSidebar";
 import { BottomBar } from "./components/BottomBar";
-import {
-  updateStaleImageStatuses,
-} from "./data/FileManager";
+import { updateStaleImageStatuses } from "./data/FileManager";
 import { FileStatusStore } from "./data/fileStatusStore";
-import {
-  importFromLocalStorage,
-} from "./data/localStorage";
+import { importFromLocalStorage } from "./data/localStorage";
 import {
   LibraryIndexedDBAdapter,
   LibraryLocalStorageMigrationAdapter,
@@ -97,13 +85,21 @@ import DebugCanvas, {
   loadSavedDebugState,
 } from "./components/DebugCanvas";
 
-import { exportToPNG, exportToSVG, exportToPDF, exportToJSON } from "./data/exportUtils";
+import {
+  exportToPNG,
+  exportToSVG,
+  exportToPDF,
+  exportToJSON,
+} from "./data/exportUtils";
 import { RecentFilesPanel } from "./components/RecentFilesPanel";
 import { useAutoSave } from "./hooks/useAutoSave";
 import { RecentFiles } from "./data/RecentFiles";
 import { CanvasSearch } from "./components/CanvasSearch";
 import { ColorPalettePanel } from "./components/ColorPalettePanel";
-import { SidebarEyeButton } from "./components/LeftSidebar";
+import {
+  SidebarEyeButton,
+  type SidebarEyePosition,
+} from "./components/LeftSidebar";
 
 import "./index.scss";
 
@@ -116,10 +112,7 @@ const initializeScene = async (opts: {
 }): Promise<{ scene: ExcalidrawInitialDataState | null }> => {
   const localDataState = importFromLocalStorage();
 
-  const scene: Omit<
-    ExcalidrawInitialDataState,
-    "files"
-  > & {
+  const scene: Omit<ExcalidrawInitialDataState, "files"> & {
     scrollToContent?: boolean;
   } = {
     elements: restoreElements(localDataState?.elements, null, {
@@ -138,9 +131,12 @@ const ExcalidrawWrapper = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [recentFilesOpen, setRecentFilesOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarEyePosition, setSidebarEyePosition] =
+    useState<SidebarEyePosition>({ left: 12, top: 60 });
   const [activeTool, setActiveTool] = useState("selection");
   const [searchOpen, setSearchOpen] = useState(false);
   const [colorPaletteOpen, setColorPaletteOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#0078D4");
   const [workspaceName, setWorkspaceName] = useState("Untitled");
   const [isRecording, setIsRecording] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(true);
@@ -180,53 +176,65 @@ const ExcalidrawWrapper = () => {
   useAutoSave(excalidrawAPI);
 
   // Handle tool selection from sidebar
-  const handleToolSelect = useCallback((toolId: string) => {
-    setActiveTool(toolId);
-    // Map sidebar tool IDs to Excalidraw tool types
-    const toolMap: Record<string, string> = {
-      selection: "selection",
-      hand: "hand",
-      rectangle: "rectangle",
-      diamond: "diamond",
-      ellipse: "ellipse",
-      line: "line",
-      arrow: "arrow",
-      text: "text",
-      freedraw: "freedraw",
-      image: "image",
-      eraser: "eraser",
-      frame: "frame",
-      laser: "laser",
-      lasso: "lasso",
-    };
-    const excalidrawTool = toolMap[toolId];
-    if (excalidrawTool && excalidrawAPI) {
-      excalidrawAPI.setActiveTool({ type: excalidrawTool as any });
-    }
-  }, [excalidrawAPI]);
+  const handleToolSelect = useCallback(
+    (toolId: string) => {
+      setActiveTool(toolId);
+      // Map sidebar tool IDs to Excalidraw tool types
+      const toolMap: Record<string, string> = {
+        selection: "selection",
+        hand: "hand",
+        rectangle: "rectangle",
+        diamond: "diamond",
+        ellipse: "ellipse",
+        line: "line",
+        arrow: "arrow",
+        text: "text",
+        freedraw: "freedraw",
+        image: "image",
+        eraser: "eraser",
+        frame: "frame",
+        laser: "laser",
+        lasso: "lasso",
+      };
+      const excalidrawTool = toolMap[toolId];
+      if (excalidrawTool && excalidrawAPI) {
+        excalidrawAPI.setActiveTool({ type: excalidrawTool as any });
+      }
+    },
+    [excalidrawAPI],
+  );
 
   // Handle undo/redo via keyboard shortcuts (Excalidraw handles this internally)
   const handleUndo = useCallback(() => {
     // Excalidraw handles undo via keyboard shortcuts
     // We can trigger it by dispatching a keyboard event
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true }));
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "z", ctrlKey: true }),
+    );
   }, []);
 
   const handleRedo = useCallback(() => {
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true, shiftKey: true }));
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "z", ctrlKey: true, shiftKey: true }),
+    );
   }, []);
 
   // Recording functions
   const formatRecordingTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const toggleRecording = useCallback(async () => {
     if (isRecording) {
       // Stop recording
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state !== "inactive"
+      ) {
         mediaRecorderRef.current.stop();
       }
       if (recordingTimerRef.current) {
@@ -244,19 +252,33 @@ const ExcalidrawWrapper = () => {
         if (audioEnabled) {
           try {
             const audioStream = await navigator.mediaDevices.getUserMedia({
-              audio: { echoCancellation: true, noiseSuppression: true, sampleRate: 48000 },
+              audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                sampleRate: 48000,
+              },
             });
-            combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()]);
+            combinedStream = new MediaStream([
+              ...videoStream.getVideoTracks(),
+              ...audioStream.getAudioTracks(),
+            ]);
           } catch {
             combinedStream = videoStream;
           }
         } else {
           combinedStream = videoStream;
         }
-        const mimeTypes = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+        const mimeTypes = [
+          "video/webm;codecs=vp9,opus",
+          "video/webm;codecs=vp8,opus",
+          "video/webm",
+        ];
         let mimeType = "";
         for (const type of mimeTypes) {
-          if (MediaRecorder.isTypeSupported(type)) { mimeType = type; break; }
+          if (MediaRecorder.isTypeSupported(type)) {
+            mimeType = type;
+            break;
+          }
         }
         const recorder = new MediaRecorder(combinedStream, {
           mimeType: mimeType || undefined,
@@ -264,13 +286,20 @@ const ExcalidrawWrapper = () => {
           audioBitsPerSecond: 256000,
         });
         recordingChunksRef.current = [];
-        recorder.ondataavailable = (e) => { if (e.data.size > 0) recordingChunksRef.current.push(e.data); };
+        recorder.ondataavailable = (e) => {
+          if (e.data.size > 0) recordingChunksRef.current.push(e.data);
+        };
         recorder.onstop = () => {
-          const blob = new Blob(recordingChunksRef.current, { type: mimeType || "video/webm" });
+          const blob = new Blob(recordingChunksRef.current, {
+            type: mimeType || "video/webm",
+          });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `vision-suite-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.webm`;
+          a.download = `vision-suite-${new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace(/:/g, "-")}.webm`;
           a.click();
           URL.revokeObjectURL(url);
         };
@@ -279,7 +308,11 @@ const ExcalidrawWrapper = () => {
         recordingStartTimeRef.current = Date.now();
         setIsRecording(true);
         recordingTimerRef.current = setInterval(() => {
-          setRecordingTime(formatRecordingTime(Math.floor((Date.now() - recordingStartTimeRef.current) / 1000)));
+          setRecordingTime(
+            formatRecordingTime(
+              Math.floor((Date.now() - recordingStartTimeRef.current) / 1000),
+            ),
+          );
         }, 1000);
       } catch (err) {
         console.error("Recording failed:", err);
@@ -620,7 +653,9 @@ const ExcalidrawWrapper = () => {
       {/* Vision Suite Top Navigation Bar */}
       <TopBar
         theme={appTheme}
-        onThemeToggle={() => setAppTheme(appTheme === "dark" ? "light" : "dark")}
+        onThemeToggle={() =>
+          setAppTheme(appTheme === "dark" ? "light" : "dark")
+        }
         canUndo={canUndo}
         canRedo={canRedo}
         onUndo={handleUndo}
@@ -670,7 +705,9 @@ const ExcalidrawWrapper = () => {
         onGridToggle={() => {
           if (excalidrawAPI) {
             const current = excalidrawAPI.getAppState().gridModeEnabled;
-            excalidrawAPI.updateScene({ appState: { gridModeEnabled: !current } });
+            excalidrawAPI.updateScene({
+              appState: { gridModeEnabled: !current },
+            });
           }
         }}
         snapEnabled={snapEnabled}
@@ -694,9 +731,13 @@ const ExcalidrawWrapper = () => {
                   const data = JSON.parse(ev.target?.result as string);
                   if (excalidrawAPI && data.elements) {
                     excalidrawAPI.updateScene({ elements: data.elements });
-                    setWorkspaceName(file.name.replace(/\.(vs|parvezdraw|excalidraw)$/, ""));
+                    setWorkspaceName(
+                      file.name.replace(/\.(vs|parvezdraw|excalidraw)$/, ""),
+                    );
                   }
-                } catch { console.error("Failed to open file"); }
+                } catch {
+                  console.error("Failed to open file");
+                }
               };
               reader.readAsText(file);
             }
@@ -707,7 +748,9 @@ const ExcalidrawWrapper = () => {
           if (excalidrawAPI) {
             const elements = excalidrawAPI.getSceneElements();
             const data = { type: "vision-suite", version: 1, elements };
-            const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+            const blob = new Blob([JSON.stringify(data)], {
+              type: "application/json",
+            });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
@@ -728,14 +771,18 @@ const ExcalidrawWrapper = () => {
         activeTool={activeTool}
         onToolSelect={handleToolSelect}
         onColorPaletteOpen={() => setColorPaletteOpen(true)}
+        currentColor={currentColor}
         isSidebarVisible={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        eyePosition={sidebarEyePosition}
       />
 
       {/* Floating eye button when sidebar hidden */}
       <SidebarEyeButton
         onClick={() => setSidebarOpen(true)}
         isVisible={sidebarOpen}
+        position={sidebarEyePosition}
+        onPositionChange={setSidebarEyePosition}
       />
 
       {/* Excalidraw Canvas — positioned to account for new UI */}
@@ -745,10 +792,9 @@ const ExcalidrawWrapper = () => {
         style={{
           position: "fixed",
           top: "var(--vd-topbar-height)",
-          left: sidebarOpen ? "var(--vd-sidebar-width)" : 0,
+          left: 0,
           right: 0,
           bottom: "var(--vd-bottombar-height)",
-          transition: "left 200ms ease",
         }}
       >
         <Excalidraw
@@ -813,13 +859,7 @@ const ExcalidrawWrapper = () => {
                 icon: GithubIcon,
                 category: DEFAULT_CATEGORIES.links,
                 predicate: true,
-                keywords: [
-                  "issues",
-                  "bugs",
-                  "requests",
-                  "report",
-                  "features",
-                ],
+                keywords: ["issues", "bugs", "requests", "report", "features"],
                 perform: () => {
                   window.open(
                     "https://github.com/excalidraw/excalidraw",
@@ -846,7 +886,10 @@ const ExcalidrawWrapper = () => {
         onZoomIn={() => {
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
-            const newZoom = Math.min(currentZoom * 1.2, 5) as import("@prof/core/types").NormalizedZoomValue;
+            const newZoom = Math.min(
+              currentZoom * 1.2,
+              5,
+            ) as import("@prof/core/types").NormalizedZoomValue;
             excalidrawAPI.updateScene({
               appState: { zoom: { value: newZoom } },
             });
@@ -855,7 +898,10 @@ const ExcalidrawWrapper = () => {
         onZoomOut={() => {
           if (excalidrawAPI) {
             const currentZoom = excalidrawAPI.getAppState().zoom.value;
-            const newZoom = Math.max(currentZoom / 1.2, 0.1) as import("@prof/core/types").NormalizedZoomValue;
+            const newZoom = Math.max(
+              currentZoom / 1.2,
+              0.1,
+            ) as import("@prof/core/types").NormalizedZoomValue;
             excalidrawAPI.updateScene({
               appState: { zoom: { value: newZoom } },
             });
@@ -864,7 +910,11 @@ const ExcalidrawWrapper = () => {
         onZoomReset={() => {
           if (excalidrawAPI) {
             excalidrawAPI.updateScene({
-              appState: { zoom: { value: 1 as import("@prof/core/types").NormalizedZoomValue } },
+              appState: {
+                zoom: {
+                  value: 1 as import("@prof/core/types").NormalizedZoomValue,
+                },
+              },
             });
           }
         }}
@@ -880,9 +930,11 @@ const ExcalidrawWrapper = () => {
             }
           }
         }}
-        selectedCount={appState?.selectedElementIds
-          ? Object.keys(appState.selectedElementIds).length
-          : 0}
+        selectedCount={
+          appState?.selectedElementIds
+            ? Object.keys(appState.selectedElementIds).length
+            : 0
+        }
         elementCount={
           excalidrawAPI?.getSceneElementsIncludingDeleted()?.length ?? 0
         }
@@ -928,29 +980,29 @@ const ExcalidrawWrapper = () => {
         isOpen={colorPaletteOpen}
         onClose={() => setColorPaletteOpen(false)}
         onSelectColor={(color) => {
-          // Apply color to selected elements
+          setCurrentColor(color);
           if (excalidrawAPI) {
             const appState = excalidrawAPI.getAppState();
             const selectedIds = appState.selectedElementIds;
             const elements = excalidrawAPI.getSceneElements();
+            const updatedElements = elements.map((el) => {
+              if (selectedIds[el.id]) {
+                return {
+                  ...el,
+                  strokeColor: color,
+                };
+              }
+              return el;
+            });
 
-            if (Object.keys(selectedIds).length > 0) {
-              const updatedElements = elements.map((el) => {
-                if (selectedIds[el.id]) {
-                  return {
-                    ...el,
-                    strokeColor: color,
-                  };
-                }
-                return el;
-              });
-              excalidrawAPI.updateScene({
-                elements: updatedElements,
-              });
-            }
+            excalidrawAPI.updateScene({
+              elements: updatedElements,
+              appState: { currentItemStrokeColor: color },
+            });
           }
+          setColorPaletteOpen(false);
         }}
-        currentColor="#0078D4"
+        currentColor={currentColor}
       />
     </div>
   );

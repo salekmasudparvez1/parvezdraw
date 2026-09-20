@@ -1,11 +1,4 @@
-/**
- * Vision Suite — Left Sidebar
- *
- * Eye button hides ENTIRE sidebar for more canvas space.
- * ONE color icon that opens popup (Photoshop-style).
- */
-
-import React from "react";
+import React, { useRef } from "react";
 import {
   Pen,
   Square,
@@ -21,7 +14,6 @@ import {
   Frame,
   Target,
   Lasso,
-  EyeOff,
   Palette,
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -37,26 +29,63 @@ interface LeftSidebarProps {
   activeTool: string;
   onToolSelect: (toolId: string) => void;
   onColorPaletteOpen?: () => void;
+  currentColor: string;
   isSidebarVisible: boolean;
   onToggleSidebar: () => void;
+  eyePosition: SidebarEyePosition;
+}
+
+export interface SidebarEyePosition {
+  left: number;
+  top: number;
 }
 
 const TOOLS: ToolItem[] = [
-  { id: "selection", icon: <MousePointer2 size={18} />, label: "Select", shortcut: "V" },
-  { id: "hand", icon: <Hand size={18} />, label: "Hand", shortcut: "H" },
-  { id: "rectangle", icon: <Square size={18} />, label: "Rectangle", shortcut: "R" },
-  { id: "diamond", icon: <Diamond size={18} />, label: "Diamond", shortcut: "D" },
-  { id: "ellipse", icon: <Circle size={18} />, label: "Ellipse", shortcut: "O" },
-  { id: "line", icon: <Minus size={18} />, label: "Line", shortcut: "L" },
-  { id: "arrow", icon: <ArrowUpRight size={18} />, label: "Arrow", shortcut: "A" },
-  { id: "text", icon: <Type size={18} />, label: "Text", shortcut: "T" },
   { id: "freedraw", icon: <Pen size={18} />, label: "Pen", shortcut: "P" },
-  { id: "image", icon: <Image size={18} />, label: "Image", shortcut: "I" },
   { id: "eraser", icon: <Eraser size={18} />, label: "Eraser", shortcut: "E" },
+  {
+    id: "selection",
+    icon: <MousePointer2 size={18} />,
+    label: "Select",
+    shortcut: "V",
+  },
+  { id: "hand", icon: <Hand size={18} />, label: "Hand", shortcut: "H" },
+  {
+    id: "rectangle",
+    icon: <Square size={18} />,
+    label: "Rectangle",
+    shortcut: "R",
+  },
+  {
+    id: "diamond",
+    icon: <Diamond size={18} />,
+    label: "Diamond",
+    shortcut: "D",
+  },
+  {
+    id: "ellipse",
+    icon: <Circle size={18} />,
+    label: "Ellipse",
+    shortcut: "O",
+  },
+  { id: "line", icon: <Minus size={18} />, label: "Line", shortcut: "L" },
+  {
+    id: "arrow",
+    icon: <ArrowUpRight size={18} />,
+    label: "Arrow",
+    shortcut: "A",
+  },
+  { id: "text", icon: <Type size={18} />, label: "Text", shortcut: "T" },
+  { id: "image", icon: <Image size={18} />, label: "Image", shortcut: "I" },
   { id: "frame", icon: <Frame size={18} />, label: "Frame", shortcut: "F" },
   { id: "laser", icon: <Target size={18} />, label: "Laser", shortcut: "K" },
   { id: "lasso", icon: <Lasso size={18} />, label: "Lasso", shortcut: "S" },
 ];
+
+const EYE_BUTTON_SIZE = 42;
+const SIDEBAR_WIDTH = 56;
+const CANVAS_TOP = 48;
+const CANVAS_BOTTOM = 36;
 
 const SidebarToolButton: React.FC<{
   tool: ToolItem;
@@ -82,30 +111,37 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
   activeTool,
   onToolSelect,
   onColorPaletteOpen,
+  currentColor,
   isSidebarVisible,
   onToggleSidebar,
+  eyePosition,
 }) => {
   if (!isSidebarVisible) return null;
 
   return (
-    <motion.nav
+    <nav
       className="vd-sidebar vd-no-select"
       role="navigation"
       aria-label="Drawing tools"
-      initial={{ x: -60, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: -60, opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      style={{
+        left: Math.min(
+          Math.max(0, eyePosition.left - (SIDEBAR_WIDTH - EYE_BUTTON_SIZE) / 2),
+          Math.max(0, window.innerWidth - SIDEBAR_WIDTH),
+        ),
+        top: eyePosition.top + EYE_BUTTON_SIZE,
+      }}
     >
       {/* Eye toggle - hides ENTIRE sidebar */}
       <div className="vd-sidebar__section">
-        <button
+        <motion.button
           className="vd-eye-toggle"
           onClick={onToggleSidebar}
           title="Hide sidebar"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <EyeOff size={18} />
-        </button>
+          <img src="/epic_pen.svg" alt="" aria-hidden="true" />
+        </motion.button>
       </div>
 
       {/* Tools */}
@@ -125,41 +161,136 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
 
       {/* ONE Color icon - opens popup */}
       <div className="vd-sidebar__section vd-sidebar__bottom">
-        <button
+        <motion.button
           className="vd-tool-btn vd-tool-btn--color"
           onClick={onColorPaletteOpen}
           title="Color Palette"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <div className="vd-tool-btn__color-dot" />
+          <div
+            className="vd-tool-btn__color-dot"
+            style={{ backgroundColor: currentColor }}
+          />
           <Palette size={16} />
-        </button>
+        </motion.button>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
-// Floating eye button when sidebar is hidden
+// Floating eye button when sidebar is hidden (Now Draggable & Pro UI)
 export const SidebarEyeButton: React.FC<{
   onClick: () => void;
   isVisible: boolean;
-}> = ({ onClick, isVisible }) => {
+  position: SidebarEyePosition;
+  onPositionChange: (position: SidebarEyePosition) => void;
+}> = ({ onClick, isVisible, position, onPositionChange }) => {
   if (isVisible) return null;
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dragStateRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    startLeft: number;
+    startTop: number;
+    moved: boolean;
+  } | null>(null);
+  const dragFrameRef = useRef<number | null>(null);
+  const pendingPositionRef = useRef<SidebarEyePosition | null>(null);
+
+  const flushPosition = () => {
+    dragFrameRef.current = null;
+    if (pendingPositionRef.current) {
+      onPositionChange(pendingPositionRef.current);
+      pendingPositionRef.current = null;
+    }
+  };
+
+  const updatePosition = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const dragState = dragStateRef.current;
+    if (!dragState || event.pointerId !== dragState.pointerId) return;
+
+    const offsetX = event.clientX - dragState.startX;
+    const offsetY = event.clientY - dragState.startY;
+    if (Math.hypot(offsetX, offsetY) > 3) {
+      dragState.moved = true;
+    }
+
+    const buttonWidth = buttonRef.current?.offsetWidth ?? EYE_BUTTON_SIZE;
+    const buttonHeight = buttonRef.current?.offsetHeight ?? EYE_BUTTON_SIZE;
+    const maxLeft = Math.max(0, window.innerWidth - buttonWidth);
+    const maxTop = Math.max(
+      CANVAS_TOP,
+      window.innerHeight - CANVAS_BOTTOM - buttonHeight,
+    );
+
+    pendingPositionRef.current = {
+      left: Math.min(Math.max(0, dragState.startLeft + offsetX), maxLeft),
+      top: Math.min(Math.max(CANVAS_TOP, dragState.startTop + offsetY), maxTop),
+    };
+    if (dragFrameRef.current === null) {
+      dragFrameRef.current = requestAnimationFrame(flushPosition);
+    }
+  };
+
+  const finishPointer = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const dragState = dragStateRef.current;
+    if (!dragState || event.pointerId !== dragState.pointerId) return;
+
+    dragStateRef.current = null;
+    if (dragFrameRef.current !== null) {
+      cancelAnimationFrame(dragFrameRef.current);
+      dragFrameRef.current = null;
+    }
+    flushPosition();
+    if (buttonRef.current?.hasPointerCapture(event.pointerId)) {
+      buttonRef.current.releasePointerCapture(event.pointerId);
+    }
+    if (!dragState.moved) onClick();
+  };
 
   return (
     <motion.button
+      ref={buttonRef}
       className="vd-sidebar-eye-floating"
-      onClick={onClick}
       title="Show sidebar"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      whileHover={{ scale: 1.1 }}
+      initial={{ opacity: 0, scale: 0.8, x: -20 }}
+      animate={{ opacity: 1, scale: 1, x: 0 }}
+      exit={{ opacity: 0, scale: 0.8, x: -20 }}
+      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      style={{
+        position: "fixed",
+        left: position.left,
+        top: position.top,
+        cursor: "grab",
+        touchAction: "none", // Prevents page scroll on mobile while dragging
+      }}
+      onPointerDown={(event) => {
+        event.preventDefault();
+        buttonRef.current?.setPointerCapture(event.pointerId);
+        dragStateRef.current = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          startLeft: position.left,
+          startTop: position.top,
+          moved: false,
+        };
+        if (buttonRef.current) buttonRef.current.style.cursor = "grabbing";
+      }}
+      onPointerMove={updatePosition}
+      onPointerUp={(event) => {
+        finishPointer(event);
+        if (buttonRef.current) buttonRef.current.style.cursor = "grab";
+      }}
+      onPointerCancel={finishPointer}
     >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-        <circle cx="12" cy="12" r="3"/>
-      </svg>
+      {/* Subtle grip indicator for Pro UI affordance */}
+      <div className="vd-eye-grip" />
+      <img src="/epic_pen.svg" alt="" aria-hidden="true" />
     </motion.button>
   );
 };
