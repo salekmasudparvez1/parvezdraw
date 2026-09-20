@@ -1,0 +1,320 @@
+import path from "path";
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
+import svgrPlugin from "vite-plugin-svgr";
+import { ViteEjsPlugin } from "vite-plugin-ejs";
+import { VitePWA } from "vite-plugin-pwa";
+import checker from "vite-plugin-checker";
+import { createHtmlPlugin } from "vite-plugin-html";
+import Sitemap from "vite-plugin-sitemap";
+import { woff2BrowserPlugin } from "../scripts/woff2/woff2-vite-plugins";
+export default defineConfig(({ mode }) => {
+  // To load .env variables
+  const envVars = loadEnv(mode, `../`);
+  // https://vitejs.dev/config/
+  return {
+    server: {
+      port: Number(envVars.VITE_APP_PORT || 3000),
+      // open the browser
+      open: true,
+    },
+    // We need to specify the envDir since now there are no
+    //more located in parallel with the vite.config.ts file but in parent dir
+    envDir: "../",
+    resolve: {
+      alias: [
+        {
+          find: /^@prof\/common$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/common/src/index.ts",
+          ),
+        },
+        {
+          find: /^@prof\/common\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/common/src/$1"),
+        },
+        {
+          find: /^@prof\/element$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/element/src/index.ts",
+          ),
+        },
+        {
+          find: /^@prof\/element\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/element/src/$1"),
+        },
+        {
+          find: /^@prof\/core$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/prof/index.tsx",
+          ),
+        },
+        {
+          find: /^@prof\/core\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/prof/$1"),
+        },
+        {
+          find: /^@prof\/math$/,
+          replacement: path.resolve(__dirname, "../packages/math/src/index.ts"),
+        },
+        {
+          find: /^@prof\/math\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/math/src/$1"),
+        },
+        {
+          find: /^@prof\/utils$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/utils/src/index.ts",
+          ),
+        },
+        {
+          find: /^@prof\/utils\/(.*?)/,
+          replacement: path.resolve(__dirname, "../packages/utils/src/$1"),
+        },
+        {
+          find: /^@prof\/fractional-indexing$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/fractional-indexing/src/index.ts",
+          ),
+        },
+        {
+          find: /^@prof\/laser-pointer$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/laser-pointer/src/index.ts",
+          ),
+        },
+        {
+          find: /^@excalidraw\/fractional-indexing$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/fractional-indexing/src/index.ts",
+          ),
+        },
+        {
+          find: /^@excalidraw\/fractional-indexing\/(.*?)/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/fractional-indexing/src/$1",
+          ),
+        },
+        {
+          find: /^@excalidraw\/laser-pointer$/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/laser-pointer/src/index.ts",
+          ),
+        },
+        {
+          find: /^@excalidraw\/laser-pointer\/(.*?)/,
+          replacement: path.resolve(
+            __dirname,
+            "../packages/laser-pointer/src/$1",
+          ),
+        },
+      ],
+    },
+    build: {
+      outDir: "build",
+      rollupOptions: {
+        output: {
+          assetFileNames(chunkInfo) {
+            if (chunkInfo?.name?.endsWith(".woff2")) {
+              const family = chunkInfo.name.split("-")[0];
+              return `fonts/${family}/[name][extname]`;
+            }
+
+            return "assets/[name]-[hash][extname]";
+          },
+          // Creating separate chunk for locales except for en and percentages.json so they
+          // can be cached at runtime and not merged with
+          // app precache. en.json and percentages.json are needed for first load
+          // or fallback hence not clubbing with locales so first load followed by offline mode works fine. This is how CRA used to work too.
+          manualChunks(id) {
+            if (
+              id.includes("packages/prof/locales") &&
+              id.match(/en.json|percentages.json/) === null
+            ) {
+              const index = id.indexOf("locales/");
+              // Taking the substring after "locales/"
+              return `locales/${id.substring(index + 8)}`;
+            }
+
+            if (id.includes("@excalidraw/mermaid-to-excalidraw")) {
+              return "mermaid-to-excalidraw";
+            }
+
+            if (id.includes("@codemirror/") || id.includes("@lezer/")) {
+              return "codemirror.chunk";
+            }
+          },
+        },
+      },
+      sourcemap: true,
+      // don't auto-inline small assets (i.e. fonts hosted on CDN)
+      assetsInlineLimit: 0,
+    },
+    plugins: [
+      Sitemap({
+        hostname: "http://localhost:3000",
+        outDir: "build",
+        changefreq: "monthly",
+        generateRobotsTxt: false,
+      }),
+      woff2BrowserPlugin(),
+      react(),
+      checker({
+        typescript: true,
+        eslint:
+          envVars.VITE_APP_ENABLE_ESLINT === "false"
+            ? undefined
+            : { lintCommand: 'eslint "./**/*.{js,ts,tsx}"' },
+        overlay: {
+          initialIsOpen: envVars.VITE_APP_COLLAPSE_OVERLAY === "false",
+          badgeStyle: "margin-bottom: 4rem; margin-left: 1rem",
+        },
+      }),
+      svgrPlugin(),
+      ViteEjsPlugin(),
+      VitePWA({
+        registerType: "autoUpdate",
+        devOptions: {
+          /* set this flag to true to enable in Development mode */
+          enabled: envVars.VITE_APP_ENABLE_PWA === "true",
+        },
+
+        workbox: {
+          // don't precache fonts, locales and separate chunks
+          globIgnores: [
+            "fonts.css",
+            "**/locales/**",
+            "service-worker.js",
+            "**/*.chunk-*.js",
+            // CodeMirrorEditor can't be assigned a `.chunk` name via
+            // manualChunks because Rollup would hoist shared deps (React)
+            // via a static import from the main bundle, defeating lazy
+            // loading. So we exclude it by name instead.
+            "**/CodeMirrorEditor-*.js",
+          ],
+          runtimeCaching: [
+            {
+              urlPattern: new RegExp(".+.woff2"),
+              handler: "CacheFirst",
+              options: {
+                cacheName: "fonts",
+                expiration: {
+                  maxEntries: 1000,
+                  maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
+                },
+                cacheableResponse: {
+                  // 0 to cache "opaque" responses from cross-origin requests (i.e. CDN)
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: new RegExp("fonts.css"),
+              handler: "StaleWhileRevalidate",
+              options: {
+                cacheName: "fonts",
+                expiration: {
+                  maxEntries: 50,
+                },
+              },
+            },
+            {
+              urlPattern: new RegExp("locales/[^/]+.js"),
+              handler: "CacheFirst",
+              options: {
+                cacheName: "locales",
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 30, // <== 30 days
+                },
+              },
+            },
+            {
+              urlPattern: new RegExp("(.chunk-.+|CodeMirrorEditor-.+)\\.js"),
+              handler: "CacheFirst",
+              options: {
+                cacheName: "chunk",
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 90, // <== 90 days
+                },
+              },
+            },
+          ],
+          maximumFileSizeToCacheInBytes: 2.3 * 1024 ** 2, // 2.3MB
+        },
+        manifest: {
+          short_name: "Parvez Draw",
+          name: "Parvez Draw",
+          description:
+            "Parvez Draw is an offline-first whiteboard tool that lets you easily sketch diagrams that have a hand-drawn feel to them.",
+          icons: [
+            {
+              src: "android-chrome-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+            {
+              src: "apple-touch-icon.png",
+              type: "image/png",
+              sizes: "180x180",
+            },
+            {
+              src: "favicon-32x32.png",
+              sizes: "32x32",
+              type: "image/png",
+            },
+            {
+              src: "favicon-16x16.png",
+              sizes: "16x16",
+              type: "image/png",
+            },
+          ],
+          start_url: "/",
+          id: "parvezdraw",
+          display: "standalone",
+          theme_color: "#121212",
+          background_color: "#ffffff",
+          file_handlers: [
+            {
+              action: "/",
+              accept: {
+                "application/vnd.parvezdraw+json": [".parvezdraw"],
+              },
+            },
+          ],
+          share_target: {
+            action: "/web-share-target",
+            method: "POST",
+            enctype: "multipart/form-data",
+            params: {
+              files: [
+                {
+                  name: "file",
+                  accept: [
+                    "application/vnd.parvezdraw+json",
+                    "application/json",
+                    ".parvezdraw",
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      }),
+      createHtmlPlugin({
+        minify: true,
+      }),
+    ],
+    publicDir: "../public",
+  };
+});

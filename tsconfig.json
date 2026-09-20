@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "rootDir": "./",
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@prof/common": ["./packages/common/src/index.ts"],
+      "@prof/common/*": ["./packages/common/src/*"],
+      "@prof/core": ["./packages/prof/index.tsx"],
+      "@prof/core/*": ["./packages/prof/*"],
+      "@prof/element": ["./packages/element/src/index.ts"],
+      "@prof/element/*": ["./packages/element/src/*"],
+      "@prof/fractional-indexing": ["./packages/fractional-indexing/src/index.ts"],
+      "@prof/fractional-indexing/*": ["./packages/fractional-indexing/src/*"],
+      "@prof/laser-pointer": ["./packages/laser-pointer/src/index.ts"],
+      "@prof/laser-pointer/*": ["./packages/laser-pointer/src/*"],
+      "@prof/math": ["./packages/math/src/index.ts"],
+      "@prof/math/*": ["./packages/math/src/*"],
+      "@prof/utils": ["./packages/utils/src/index.ts"],
+      "@prof/utils/*": ["./packages/utils/src/*"]
+    }
+  },
+  "include": ["packages", "excalidraw-app"],
+  "exclude": ["examples", "dist", "types", "tests"]
+}
