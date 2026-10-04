@@ -43,7 +43,7 @@ yarn start
 yarn build
 ```
 
-The built app will be in `excalidraw-app/build/`.
+The built app will be in `phitron-draw-app/build/`.
 
 ## Development Commands
 
@@ -59,7 +59,7 @@ yarn fix                # Fix linting and formatting
 
 ```
 excalidraw/
-├── excalidraw-app/          # Main application
+├── phitron-draw-app/          # Main application
 │   ├── App.tsx              # Root component
 │   ├── components/          # UI components
 │   ├── data/                # Data layer (localStorage, IndexedDB)

@@ -35,6 +35,6 @@
       "@prof/utils/*": ["./packages/utils/src/*"]
     }
   },
-  "include": ["packages", "excalidraw-app"],
+  "include": ["packages", "phitron-draw-app"],
   "exclude": ["examples", "dist", "types", "tests"]
 }

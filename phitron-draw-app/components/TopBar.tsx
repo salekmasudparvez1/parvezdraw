@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 import React, { useState, useRef, useCallback } from "react";
 import {
   Search,
@@ -25,6 +16,7 @@ import {
   MicOff,
   Circle,
   Pencil,
+  Image as ImageIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Theme } from "@prof/element/types";
@@ -56,6 +48,7 @@ interface TopBarProps {
   onNewFile?: () => void;
   onOpenFile?: () => void;
   onSaveFile?: () => void;
+  onInsertImage?: () => void;
   isRecording?: boolean;
   onToggleRecording?: () => void;
   audioEnabled?: boolean;
@@ -90,6 +83,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onNewFile,
   onOpenFile,
   onSaveFile,
+  onInsertImage,
   isRecording = false,
   onToggleRecording,
   audioEnabled = true,
@@ -111,28 +105,36 @@ export const TopBar: React.FC<TopBarProps> = ({
     setIsEditingName(false);
   }, [editName, workspaceName, onWorkspaceNameChange]);
 
-  const handleNameKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleNameSubmit();
-    } else if (e.key === "Escape") {
-      setEditName(workspaceName);
-      setIsEditingName(false);
-    }
-  }, [handleNameSubmit, workspaceName]);
+  const handleNameKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleNameSubmit();
+      } else if (e.key === "Escape") {
+        setEditName(workspaceName);
+        setIsEditingName(false);
+      }
+    },
+    [handleNameSubmit, workspaceName],
+  );
 
   return (
     <div className="vd-topbar" role="banner">
-      {}
+      {/* Left side */}
       <div className="vd-topbar__left">
-        {}
-        <div className="vd-topbar__logo" title="Vision Suite">
-          <img src="/logo.svg" alt="Vision Suite" width="22" height="22" style={{ borderRadius: 3 }} />
-          <span className="vd-topbar__brand">Vision Suite</span>
+        {/* Brand */}
+        <div className="vd-topbar__logo" title="Phitron Whiteboard">
+          <img
+            src="https://phitron.io/assets/logo-DCo01ux1.svg"
+            alt="Phitron"
+            width="96"
+            height="22"
+            style={{ borderRadius: 3 }}
+          />
         </div>
 
         <div className="vd-divider--vertical" />
 
-        {}
+        {/* File menu */}
         <div className="vd-topbar__dropdown">
           <button
             className="vd-btn vd-btn--ghost vd-btn--sm"
@@ -148,43 +150,99 @@ export const TopBar: React.FC<TopBarProps> = ({
           <AnimatePresence>
             {fileMenuOpen && (
               <>
-                <div className="vd-topbar__dropdown-backdrop" onClick={() => setFileMenuOpen(false)} />
+                <div
+                  className="vd-topbar__dropdown-backdrop"
+                  onClick={() => setFileMenuOpen(false)}
+                />
                 <motion.div
                   className="vd-menu"
                   initial={{ opacity: 0, y: -4, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.98 }}
                   transition={{ duration: 0.12 }}
-                  style={{ position: "absolute", top: "100%", left: 0, marginTop: 4, minWidth: 200 }}
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    marginTop: 4,
+                    minWidth: 200,
+                  }}
                 >
                   <div className="vd-menu-label">File</div>
-                  <button className="vd-menu-item" onClick={() => { onNewFile?.(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onNewFile?.();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <FileText size={14} />
                     <span>New File</span>
                     <span className="vd-menu-item__shortcut">Ctrl+N</span>
                   </button>
-                  <button className="vd-menu-item" onClick={() => { onOpenFile?.(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onOpenFile?.();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <FolderOpen size={14} />
                     <span>Open File</span>
                     <span className="vd-menu-item__shortcut">Ctrl+O</span>
                   </button>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onInsertImage?.();
+                      setFileMenuOpen(false);
+                    }}
+                  >
+                    <ImageIcon size={14} />
+                    <span>Insert Image...</span>
+                    <span className="vd-menu-item__shortcut">9</span>
+                  </button>
                   <div className="vd-menu-separator" />
-                  <button className="vd-menu-item" onClick={() => { onSaveFile?.(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onSaveFile?.();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <Save size={14} />
                     <span>Save (.vs)</span>
                     <span className="vd-menu-item__shortcut">Ctrl+S</span>
                   </button>
                   <div className="vd-menu-separator" />
                   <div className="vd-menu-label">Export</div>
-                  <button className="vd-menu-item" onClick={() => { onExportPNG(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onExportPNG();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <FileImage size={14} />
                     <span>Export as PNG</span>
                   </button>
-                  <button className="vd-menu-item" onClick={() => { onExportSVG(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onExportSVG();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <FileCode size={14} />
                     <span>Export as SVG</span>
                   </button>
-                  <button className="vd-menu-item" onClick={() => { onExportPDF(); setFileMenuOpen(false); }}>
+                  <button
+                    className="vd-menu-item"
+                    onClick={() => {
+                      onExportPDF();
+                      setFileMenuOpen(false);
+                    }}
+                  >
                     <FileText size={14} />
                     <span>Export as PDF</span>
                   </button>
@@ -235,21 +293,67 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="vd-divider--vertical" />
 
         {}
-        <button className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm" onClick={onUndo} disabled={!canUndo} title="Undo (Ctrl+Z)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+        <button
+          className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm"
+          onClick={onUndo}
+          disabled={!canUndo}
+          title="Undo (Ctrl+Z)"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M3 7v6h6" />
+            <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13" />
+          </svg>
         </button>
-        <button className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm" onClick={onRedo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg>
+        <button
+          className="vd-btn vd-btn--icon vd-btn--ghost vd-btn--sm"
+          onClick={onRedo}
+          disabled={!canRedo}
+          title="Redo (Ctrl+Shift+Z)"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 7v6h-6" />
+            <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13" />
+          </svg>
         </button>
 
         <div className="vd-divider--vertical" />
 
         {}
-        <button className={`vd-btn vd-btn--ghost vd-btn--sm ${gridEnabled ? "vd-btn--active" : ""}`} onClick={onGridToggle} title="Toggle grid">
+        <button
+          className={`vd-btn vd-btn--ghost vd-btn--sm ${
+            gridEnabled ? "vd-btn--active" : ""
+          }`}
+          onClick={onGridToggle}
+          title="Toggle grid"
+        >
           <Grid3X3 size={14} />
           <span>Grid</span>
         </button>
-        <button className={`vd-btn vd-btn--ghost vd-btn--sm ${snapEnabled ? "vd-btn--active" : ""}`} onClick={onSnapToggle} title="Toggle snap">
+        <button
+          className={`vd-btn vd-btn--ghost vd-btn--sm ${
+            snapEnabled ? "vd-btn--active" : ""
+          }`}
+          onClick={onSnapToggle}
+          title="Toggle snap"
+        >
           <Magnet size={14} />
           <span>Snap</span>
         </button>
@@ -257,7 +361,11 @@ export const TopBar: React.FC<TopBarProps> = ({
 
       {}
       <div className="vd-topbar__center">
-        <button className="vd-btn vd-btn--ghost vd-topbar__search" onClick={onSearchOpen} title="Search (Ctrl+K)">
+        <button
+          className="vd-btn vd-btn--ghost vd-topbar__search"
+          onClick={onSearchOpen}
+          title="Search (Ctrl+K)"
+        >
           <Search size={13} />
           <span>Search</span>
           <kbd className="vd-topbar__kbd">Ctrl+K</kbd>
@@ -268,7 +376,9 @@ export const TopBar: React.FC<TopBarProps> = ({
       <div className="vd-topbar__right">
         {}
         <button
-          className={`vd-btn vd-btn--ghost vd-btn--sm ${isRecording ? "vd-recording-active" : ""}`}
+          className={`vd-btn vd-btn--ghost vd-btn--sm ${
+            isRecording ? "vd-recording-active" : ""
+          }`}
           onClick={onToggleRecording}
           title={isRecording ? "Stop recording" : "Start recording (60fps)"}
         >
@@ -287,7 +397,9 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {}
         <button
-          className={`vd-btn vd-btn--icon vd-btn--ghost ${!audioEnabled ? "vd-recording-muted" : ""}`}
+          className={`vd-btn vd-btn--icon vd-btn--ghost ${
+            !audioEnabled ? "vd-recording-muted" : ""
+          }`}
           onClick={onToggleAudio}
           title={audioEnabled ? "Microphone on" : "Microphone off"}
         >
@@ -297,12 +409,20 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="vd-divider--vertical" />
 
         {}
-        <button className="vd-btn vd-btn--icon vd-btn--ghost" onClick={onThemeToggle} title={`Switch to ${isDark ? "light" : "dark"} mode`}>
+        <button
+          className="vd-btn vd-btn--icon vd-btn--ghost"
+          onClick={onThemeToggle}
+          title={`Switch to ${isDark ? "light" : "dark"} mode`}
+        >
           {isDark ? <Sun size={15} /> : <Moon size={15} />}
         </button>
 
         {}
-        <button className="vd-btn vd-btn--icon vd-btn--ghost" onClick={onSettingsOpen} title="Settings">
+        <button
+          className="vd-btn vd-btn--icon vd-btn--ghost"
+          onClick={onSettingsOpen}
+          title="Settings"
+        >
           <Settings size={15} />
         </button>
       </div>

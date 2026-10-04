@@ -9,13 +9,13 @@ An offline-first whiteboard application built on the Excalidraw codebase.
 Parvez Draw is a **monorepo** with a clear separation between the core library and the application:
 
 - **`packages/prof/`** - Main React component library (`@prof/core`)
-- **`excalidraw-app/`** - Full-featured web application (Parvez Draw)
+- **`phitron-draw-app/`** - Full-featured web application (Parvez Draw)
 - **`packages/`** - Core packages: `@prof/common`, `@prof/element`, `@prof/math`, `@prof/utils`
 
 ## Development Workflow
 
 1. **Package Development**: Work in `packages/*` for editor features
-2. **App Development**: Work in `excalidraw-app/` for app-specific features
+2. **App Development**: Work in `phitron-draw-app/` for app-specific features
 3. **Testing**: Always run `yarn test:update` before committing
 4. **Type Safety**: Use `yarn test:typecheck` to verify TypeScript
 
@@ -58,12 +58,12 @@ yarn start           # Start development server
 
 ### Key Files
 
-- `excalidraw-app/App.tsx` - Main app component
-- `excalidraw-app/data/LocalData.ts` - Local storage manager
-- `excalidraw-app/data/VersionHistory.ts` - Version snapshots
-- `excalidraw-app/data/RecentFiles.ts` - Recent files list
-- `excalidraw-app/data/RecordingHistory.ts` - Recording storage
-- `excalidraw-app/data/settings.ts` - App settings
-- `excalidraw-app/components/AppMainMenu.tsx` - Main menu with settings
-- `excalidraw-app/components/DrawingRecorder.tsx` - Recording UI
+- `phitron-draw-app/App.tsx` - Main app component
+- `phitron-draw-app/data/LocalData.ts` - Local storage manager
+- `phitron-draw-app/data/VersionHistory.ts` - Version snapshots
+- `phitron-draw-app/data/RecentFiles.ts` - Recent files list
+- `phitron-draw-app/data/RecordingHistory.ts` - Recording storage
+- `phitron-draw-app/data/settings.ts` - App settings
+- `phitron-draw-app/components/AppMainMenu.tsx` - Main menu with settings
+- `phitron-draw-app/components/DrawingRecorder.tsx` - Recording UI
 - `packages/common/src/constants.ts` - App name and constants

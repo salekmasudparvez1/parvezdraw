@@ -152,11 +152,9 @@ const ExcalidrawWrapper = () => {
 
   const editorInterface = useEditorInterface();
 
-  
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [canvasRef, setCanvasRef] = useState<HTMLCanvasElement | null>(null);
 
-  
   useEffect(() => {
     const findCanvas = () => {
       if (canvasContainerRef.current) {
@@ -166,20 +164,18 @@ const ExcalidrawWrapper = () => {
         }
       }
     };
-    
+
     findCanvas();
     const timer = setTimeout(findCanvas, 1000);
     return () => clearTimeout(timer);
   }, []);
 
-  
   useAutoSave(excalidrawAPI);
 
-  
   const handleToolSelect = useCallback(
     (toolId: string) => {
       setActiveTool(toolId);
-      
+
       const toolMap: Record<string, string> = {
         selection: "selection",
         hand: "hand",
@@ -198,16 +194,21 @@ const ExcalidrawWrapper = () => {
       };
       const excalidrawTool = toolMap[toolId];
       if (excalidrawTool && excalidrawAPI) {
-        excalidrawAPI.setActiveTool({ type: excalidrawTool as any });
+        if (toolId === "image") {
+          // If already image, switch away first so setActiveTool triggers onImageToolbarButtonClick
+          if (excalidrawAPI.getAppState().activeTool.type === "image") {
+            excalidrawAPI.setActiveTool({ type: "selection" });
+          }
+          excalidrawAPI.setActiveTool({ type: "image" });
+        } else {
+          excalidrawAPI.setActiveTool({ type: excalidrawTool as any });
+        }
       }
     },
     [excalidrawAPI],
   );
 
-  
   const handleUndo = useCallback(() => {
-    
-    
     document.dispatchEvent(
       new KeyboardEvent("keydown", { key: "z", ctrlKey: true }),
     );
@@ -219,7 +220,6 @@ const ExcalidrawWrapper = () => {
     );
   }, []);
 
-  
   const formatRecordingTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -230,7 +230,6 @@ const ExcalidrawWrapper = () => {
 
   const toggleRecording = useCallback(async () => {
     if (isRecording) {
-      
       if (
         mediaRecorderRef.current &&
         mediaRecorderRef.current.state !== "inactive"
@@ -244,7 +243,6 @@ const ExcalidrawWrapper = () => {
       setIsRecording(false);
       setRecordingTime("00:00");
     } else {
-      
       if (!canvasRef) return;
       try {
         const videoStream = canvasRef.captureStream(60);
@@ -296,7 +294,7 @@ const ExcalidrawWrapper = () => {
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `vision-suite-${new Date()
+          a.download = `phitron-${new Date()
             .toISOString()
             .slice(0, 19)
             .replace(/:/g, "-")}.webm`;
@@ -320,15 +318,13 @@ const ExcalidrawWrapper = () => {
     }
   }, [isRecording, canvasRef, audioEnabled]);
 
-  
   const appState = excalidrawAPI?.getAppState();
-  const canUndo = true; 
+  const canUndo = true;
   const canRedo = false;
   const zoom = appState?.zoom?.value ?? 1;
   const gridEnabled = appState?.gridModeEnabled ?? false;
-  const snapEnabled = false; 
+  const snapEnabled = false;
 
-  
   const initialStatePromiseRef = useRef<{
     promise: ResolvablePromise<ExcalidrawInitialDataState | null>;
   }>({ promise: null! });
@@ -368,7 +364,6 @@ const ExcalidrawWrapper = () => {
     }
   }, [excalidrawAPI]);
 
-  
   const loadImages = useCallback(
     (data: ResolutionType<typeof initializeScene>, isInitialLoad = false) => {
       if (!data.scene || !excalidrawAPI) {
@@ -412,7 +407,7 @@ const ExcalidrawWrapper = () => {
     }
 
     initializeScene({ excalidrawAPI }).then(async (data) => {
-      loadImages(data,  true);
+      loadImages(data, true);
       initialStatePromiseRef.current.promise.resolve(data.scene);
     });
 
@@ -549,6 +544,10 @@ const ExcalidrawWrapper = () => {
     appState: AppState,
     files: BinaryFiles,
   ) => {
+    if (appState.activeTool?.type && appState.activeTool.type !== activeTool) {
+      setActiveTool(appState.activeTool.type);
+    }
+
     if (!LocalData.isSavePaused()) {
       LocalData.save(elements, appState, files, () => {
         if (excalidrawAPI) {
@@ -579,7 +578,6 @@ const ExcalidrawWrapper = () => {
       });
     }
 
-    
     if (debugCanvasRef.current && excalidrawAPI) {
       debugRenderer(
         debugCanvasRef.current,
@@ -648,7 +646,7 @@ const ExcalidrawWrapper = () => {
   return (
     <div
       style={{ height: "100%" }}
-      className={clsx("excalidraw-app", "pd-app")}
+      className={clsx("phitron-draw-app", "pd-app")}
     >
       {}
       <TopBar
@@ -759,6 +757,7 @@ const ExcalidrawWrapper = () => {
             URL.revokeObjectURL(url);
           }
         }}
+        onInsertImage={() => handleToolSelect("image")}
         isRecording={isRecording}
         onToggleRecording={toggleRecording}
         audioEnabled={audioEnabled}
@@ -766,7 +765,7 @@ const ExcalidrawWrapper = () => {
         recordingTime={recordingTime}
       />
 
-      {}
+      {/* 4. Left Sidebar */}
       <LeftSidebar
         activeTool={activeTool}
         onToolSelect={handleToolSelect}
@@ -775,9 +774,10 @@ const ExcalidrawWrapper = () => {
         isSidebarVisible={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         eyePosition={sidebarEyePosition}
+        onPositionChange={setSidebarEyePosition}
       />
 
-      {}
+      {/* 4.1 Floating Sidebar Eye Button (shown when sidebar is hidden) */}
       <SidebarEyeButton
         onClick={() => setSidebarOpen(true)}
         isVisible={sidebarOpen}
@@ -785,7 +785,7 @@ const ExcalidrawWrapper = () => {
         onPositionChange={setSidebarEyePosition}
       />
 
-      {}
+      {/* 5. Canvas Container */}
       <div
         ref={canvasContainerRef}
         className="vd-canvas-container"
@@ -819,7 +819,7 @@ const ExcalidrawWrapper = () => {
               saveAsImage: false,
             },
             tools: {
-              image: false,
+              image: true,
             },
           }}
           onLinkOpen={(element, event) => {
@@ -953,14 +953,13 @@ const ExcalidrawWrapper = () => {
         isOpen={searchOpen}
         onClose={() => setSearchOpen(false)}
         onSelectElement={(elementId) => {
-          
           if (excalidrawAPI) {
             excalidrawAPI.updateScene({
               appState: {
                 selectedElementIds: { [elementId]: true },
               },
             });
-            
+
             const elements = excalidrawAPI.getSceneElements();
             const element = elements.find((el) => el.id === elementId);
             if (element) {

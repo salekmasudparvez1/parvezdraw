@@ -5,8 +5,8 @@ import React from "react";
 const VisionSuiteLogo = () => (
   <div style={{ marginBottom: "1rem" }}>
     <img
-      src="/logo.svg"
-      alt="Vision Suite"
+      src="https://phitron.io/favicon-32x32.png"
+      alt="Phitron"
       style={{
         width: "80px",
         height: "80px",
@@ -33,8 +33,10 @@ export const AppWelcomeScreen: React.FC<{
       <WelcomeScreen.Center>
         <VisionSuiteLogo />
         <WelcomeScreen.Center.Heading>
-          <span style={{ fontSize: "2.25rem", fontWeight: 600, color: "#0078D4" }}>
-            Vision Suite
+          <span
+            style={{ fontSize: "2.25rem", fontWeight: 600, color: "#0078D4" }}
+          >
+            Phitron
           </span>
           <br />
           <span style={{ fontSize: "1.1rem", fontWeight: 400, opacity: 0.8 }}>
